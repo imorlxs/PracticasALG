@@ -5,7 +5,7 @@ BIN			= $(HOME)/bin
 
 CPP_SOURCE	= $(wildcard $(SRC)/*.cpp)
 BINARIES	= $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(CPP_SOURCE))
-FLAGS = -std=c+11
+FLAGS = -std=c++11
 all: $(BIN) $(BINARIES)
 	@echo "[+] let's fucking gooo, todo ha salido a pedir de Milhouse."
 
