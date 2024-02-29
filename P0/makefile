@@ -1,6 +1,22 @@
+### makefile ########################################################
+HOME		= .
+SRC			= $(HOME)/src
+BIN			= $(HOME)/bin
 
-all:
-	@g++ -oBurbuja.bin Burbuja.cpp -std=c++11
-	@echo Pruebe a ejecutar el algoritmo iterativo con ./Burbuja.bin salida.txt 12345 1000 2000 3000
-	@g++ -oMergeSort.bin mergesort.cpp -std=c++11
-	@echo Pruebe a ejecutar el algoritmo recursivo con ./MergeSort.bin salida.txt 12345 1000 2000 3000
+CPP_SOURCE	= $(wildcard $(SRC)/*.cpp)
+BINARIES	= $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(CPP_SOURCE))
+FLAGS = -std=c+11
+all: $(BIN) $(BINARIES)
+	@echo "[+] let's fucking gooo, todo ha salido a pedir de Milhouse."
+
+$(BIN):
+	@mkdir -p $(BIN)
+
+$(BIN)/%: $(SRC)/%.cpp
+	@echo "compilando $@"
+	@g++ $(FLAGS) -o $@ $<
+
+.PHONY: clean
+clean:
+	@echo "[-] limpiando..."
+	@rm -rf $(BIN)
