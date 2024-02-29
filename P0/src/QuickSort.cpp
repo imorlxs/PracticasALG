@@ -8,7 +8,7 @@
 #include <fstream> // Para usar ficheros
 using namespace std;
 
-void QuickSort(int *v, int n);
+void QuickSort(int *v, int start, int end);
 
 
 int main(int argc, char *argv[]) {
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
 /*
  * Source: https://www.geeksforgeeks.org/cpp-program-for-quicksort/
  */
-int partition(int arr[], int start, int end)
+int partition(int v*, int start, int end)
 {
  
     int pivot = arr[start];
