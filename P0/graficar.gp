@@ -5,13 +5,13 @@ set ylabel "Tiempo (µs)"
 set grid
 
 # Definir las funciones f(x) para cada tipo de algoritmo de ordenamiento
-f_burbuja(x) = a*x**2 + b*x + c
+f_BubbleSort(x) = a*x**2 + b*x + c
 f_MergeSort(x) = a*x*log(x)
 f_CountingSort(x) = a*x + b
 f_InsertionSort(x) = a*x**2 + b*x + c
 f_quicksort(x) = a*x*log(x)
 f_SelectionSort(x) = a*x**2 + b*x + c
-f_ShellSort(x) = a*x**(3/2) + b*x + c
+f_ShellSort(x) = a*x*log(x)*log(x)
 
 # Obtener la lista de archivos .dat en la carpeta dat/
 file_list = system("ls dat/*.dat 2>/dev/null")
@@ -25,8 +25,8 @@ do for [file in file_list] {
     set title filename_no_extension
 
     # Ajustar la función correspondiente a los datos del archivo
-    if (filename_no_extension eq "Burbuja") {
-        fit f_burbuja(x) file via a, b, c
+    if (filename_no_extension eq "BubbleSort") {
+        fit f_BubbleSort(x) file via a, b, c
     } else if (filename_no_extension eq "MergeSort") {
         fit f_MergeSort(x) file via a
     } else if (filename_no_extension eq "CountingSort") {
@@ -49,8 +49,8 @@ do for [file in file_list] {
     set output output_file
 
     # Plotear el archivo actual y la función ajustada
-    if (filename_no_extension eq "Burbuja") {
-         plot file using 1:2 with points lw 2 title "Datos", f_burbuja(x) with lines lw 2 title "Ajuste Burbuja"
+    if (filename_no_extension eq "BubbleSort") {
+         plot file using 1:2 with points lw 2 title "Datos", f_BubbleSort(x) with lines lw 2 title "Ajuste BubbleSort"
     } else if (filename_no_extension eq "MergeSort") {
         plot file using 1:2 with points lw 2 title "Datos", f_MergeSort(x) with lines lw 2 title "Ajuste MergeSort"
     } else if (filename_no_extension eq "CountingSort") {
