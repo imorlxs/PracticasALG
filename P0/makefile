@@ -40,16 +40,9 @@ test: $(BINARIES) | $(DAT) $(IMG)
 	@echo "[+] Generando gráficas..."
 	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
 
-
-graphic: 
-	@echo "[+] Generando gráficas..."
-	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
-
 help:
 	@echo "Posibles opciones:"
 	@echo "		${BOLD}clean${RESET}	\
 	Borra todos los archivos creados por el makefile"
 	@echo "		${BOLD}test${RESET}	\
-	Genera los datos para cada función, y además crea las gráficas."
-	@echo "		${BOLD}graphic${RESET}	\
-	Crea las gráficas, ajustando la eficiencia teórica con la empírica"
+	Genera los datos para cada función, y además crea las gráficas ajustando la eficiencia teórica con la empírica"
