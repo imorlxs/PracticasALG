@@ -18,10 +18,10 @@ N2ALGS = bin/BubbleSort bin/InsertionSort bin/SelectionSort
 all: $(BIN) $(BINARIES)
 	@echo "[+] Todo está compilado correctamente"
 
-data: $(DAT) $(DATAS)
+data: all $(DAT) $(DATAS)
 	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
 
-graphic: $(IMG) clean-fit-log
+graphic: data $(IMG) clean-fit-log
 	@echo "[+] Generando gráficas..."
 	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
 
