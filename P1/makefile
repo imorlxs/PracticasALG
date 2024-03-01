@@ -21,9 +21,9 @@ all: $(BIN) $(BINARIES)
 data: all $(DAT) $(DATAS)
 	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
 
-graphic: data $(IMG) clean-fit-log
+graphic: $(IMG) clean-fit-log
 	@echo "[+] Generando gráficas..."
-	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
+	@gnuplot $(GNUPLOT_SCRIPT) > /dev/null
 
 $(BIN) $(DAT) $(IMG):
 	@mkdir -p $@
