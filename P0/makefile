@@ -11,7 +11,7 @@ GNUPLOT_SCRIPT = $(SRC)/graficar.gp
 #######################################################################
 
 all: $(BIN) $(BINARIES)
-	@echo "[+] let's fucking gooo, todo ha salido a pedir de Milhouse."
+	@echo "[+] Todo está compilado correctamente"
 
 $(BIN) $(DAT) $(IMG):
 	@mkdir -p $@
@@ -26,21 +26,30 @@ clean:
 	@rm -rf $(BIN) $(DAT) $(IMG)
 
 test: $(BINARIES) | $(DAT) $(IMG)
-	@echo "[-] Limpiando datos y gráficas preexistentes..."
-	@rm -f $(DAT)/* $(IMG)/*
-	
 	@echo "[+] Ejecutando pruebas..."
 	@for binary in $^; do \
         binary_name=$$(basename $$binary); \
-        echo "[+] Ejecutando $$binary..."; \
-        numbers=$$(seq 100 1000 30000); \
-        ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null; \
+        if [ ! -e $(DAT)/$$binary_name.dat ]; then \
+            echo "[+] Ejecutando $$binary..."; \
+            numbers=$$(seq 100 1000 30000); \
+            ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null; \
+        else \
+            echo "[+] Archivo .dat para $$binary_name ya existe. No se ejecutan pruebas."; \
+        fi; \
     done
-
 	@echo "[+] Generando gráficas..."
-	@gnuplot $(GNUPLOT_SCRIPT)
+	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
+
 
 graphic: 
 	@echo "[+] Generando gráficas..."
-	@gnuplot $(GNUPLOT_SCRIPT)
+	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
 
+help:
+	@echo "Posibles opciones:"
+	@echo "		${BOLD}clean${RESET}	\
+	Borra todos los archivos creados por el makefile"
+	@echo "		${BOLD}test${RESET}	\
+	Genera los datos para cada función, y además crea las gráficas."
+	@echo "		${BOLD}graphic${RESET}	\
+	Crea las gráficas, ajustando la eficiencia teórica con la empírica"
