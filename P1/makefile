@@ -6,54 +6,49 @@ DAT     = $(HOME)/dat
 IMG     = $(HOME)/img
 CPP_SOURCE	= $(wildcard $(SRC)/*.cpp)
 BINARIES	= $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(CPP_SOURCE))
+DATAS = $(patsubst $(SRC)/%.cpp, $(DAT)/%.dat, $(CPP_SOURCE))
 CXXFLAGS = -std=c++11
 GNUPLOT_SCRIPT = $(SRC)/graficar.gp
+CXX = g++
+NUMBERS_N2 = $$(seq 100 1000 20000)
+NUMBERS_NLOGN = $$(seq 1000 10000 300000)
+N2ALGS = bin/BubbleSort bin/InsertionSort bin/SelectionSort
 #######################################################################
 
 all: $(BIN) $(BINARIES)
 	@echo "[+] Todo está compilado correctamente"
 
+data: $(DAT) $(DATAS)
+	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
+
+graphic: $(IMG) data clean-fit-log
+	@echo "[+] Generando gráficas..."
+	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
+
 $(BIN) $(DAT) $(IMG):
 	@mkdir -p $@
 
 $(BIN)/%: $(SRC)/%.cpp
-	@echo "[+] Compilando $@..."
-	@g++ $(CXXFLAGS) -o $@ $<
+	@echo "[+] Compilando $@..., primer requisito $<"
+	@$(CXX) $(CXXFLAGS) -o $@ $<
 
 .PHONY: clean
-clean:
+clean: clean-fit-log clean-img clean-data
 	@echo "[-] Limpiando archivos...."
-	@rm -rf $(BIN) $(DAT) $(IMG)
+	@rm -rf $(BIN)
 
-test: $(BINARIES) | $(DAT) $(IMG)
-	@echo "[+] Ejecutando pruebas..."
-	@rm -rf $(HOME)/fit.log
-	@for binary in $^; do \
-        binary_name=$$(basename $$binary); \
-        if [ ! -e $(DAT)/$$binary_name.dat ]; then \
-            echo "[+] Ejecutando $$binary..."; \
-            if [ "$$binary_name" = "BubbleSort" ]; then \
-                numbers=$$(seq 100 100 3000); \
-            elif [ "$$binary_name" = "QuickSort" ]; then \
-                numbers=$$(seq 100 100000 3000000); \
-            elif [ "$$binary_name" = "MergeSort" ]; then \
-                numbers=$$(seq 100 100000 3000000); \
-            else \
-                echo "Algoritmo desconocido: $$binary_name"; \
-                numbers=$$(seq 100 1000 30000); \
-            fi; \
-            ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null & \
-        else \
-            echo "[+] Archivo .dat para $$binary_name ya existe. No se ejecutan pruebas."; \
-        fi; \
-    done; \
-		wait
-	@echo "[+] Generando gráficas..."
-	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
+clean-fit-log:
+	@rm -f $(HOME)/fit.log
 
-help:
-	@echo "Posibles opciones:"
-	@echo "		${BOLD}clean${RESET}	\
-	Borra todos los archivos creados por el makefile"
-	@echo "		${BOLD}test${RESET}	\
-	Genera los datos para cada función, y además crea las gráficas ajustando la eficiencia teórica con la empírica"
+clean-data:
+	@rm -rf $(DAT)
+
+clean-img:
+	@rm -rf $(IMG)
+
+
+$(DAT)/%.dat: $(BIN)/% $(DAT)
+	@echo $<
+	@$< $@ $(SEED) $(if $(findstring $<, $(N2ALGS)), $(NUMBERS_N2)[,$(NUMBERS_NLOGN)]) > /dev/null
+	
+	
