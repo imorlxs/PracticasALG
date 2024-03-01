@@ -33,8 +33,8 @@ test: $(BINARIES) | $(DAT) $(IMG)
 	@for binary in $^; do \
         binary_name=$$(basename $$binary); \
         echo "[+] Ejecutando $$binary..."; \
-        numbers=$$(seq 100 1000 10000); \
-        ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers 2> /dev/null; \
+        numbers=$$(seq 100 1000 30000); \
+        ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null; \
     done
 
 	@echo "[+] Generando gráficas..."
