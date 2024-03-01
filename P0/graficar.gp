@@ -26,7 +26,7 @@ do for [file in file_list] {
     set output output_file
 
     # Plotear el archivo actual
-    plot file using 1:2 with lines lw 2
+    plot with lines lw 2
 
     # Restaurar la salida a la pantalla
     set output
