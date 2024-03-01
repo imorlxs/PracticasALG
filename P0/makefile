@@ -7,7 +7,7 @@ IMG     = $(HOME)/img
 CPP_SOURCE	= $(wildcard $(SRC)/*.cpp)
 BINARIES	= $(patsubst $(SRC)/%.cpp, $(BIN)/%, $(CPP_SOURCE))
 CXXFLAGS = -std=c++11
-GNUPLOT_SCRIPT = graficar.gp
+GNUPLOT_SCRIPT = $(SRC)/graficar.gp
 #######################################################################
 
 all: $(BIN) $(BINARIES)
@@ -37,6 +37,10 @@ test: $(BINARIES) | $(DAT) $(IMG)
         ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null; \
     done
 
+	@echo "[+] Generando gráficas..."
+	@gnuplot $(GNUPLOT_SCRIPT)
+
+graphic: 
 	@echo "[+] Generando gráficas..."
 	@gnuplot $(GNUPLOT_SCRIPT)
 
