@@ -27,6 +27,7 @@ clean:
 
 test: $(BINARIES) | $(DAT) $(IMG)
 	@echo "[+] Ejecutando pruebas..."
+	@rm -rf $(HOME)/fit.log
 	@for binary in $^; do \
         binary_name=$$(basename $$binary); \
         if [ ! -e $(DAT)/$$binary_name.dat ]; then \

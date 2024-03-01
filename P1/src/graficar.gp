@@ -5,7 +5,7 @@ set ylabel "Tiempo (µs)"
 set grid
 
 # Definir las funciones f(x) para cada tipo de algoritmo de ordenamiento
-f_BubbleSort(x) = a*x**2
+f_BubbleSort(x) = a*x**2 + b*x + c
 f_MergeSort(x) = a*x*log(x)
 f_CountingSort(x) = a*x
 f_InsertionSort(x) = a*x**2
@@ -26,7 +26,7 @@ do for [file in file_list] {
 
     # Ajustar la función correspondiente a los datos del archivo
     if (filename_no_extension eq "BubbleSort") {
-        fit f_BubbleSort(x) file via a
+        fit f_BubbleSort(x) file via a, b, c
     } else if (filename_no_extension eq "MergeSort") {
         fit f_MergeSort(x) file via a
     } else if (filename_no_extension eq "CountingSort") {
@@ -50,19 +50,19 @@ do for [file in file_list] {
 
     # Plotear el archivo actual y la función ajustada
     if (filename_no_extension eq "BubbleSort") {
-         plot file using 1:2 with points lw 2 title "Datos", f_BubbleSort(x) with lines lw 2 title "Ajuste BubbleSort"
+         plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_BubbleSort(x) with lines lw 2 title " Tiempo teórico estimado"
     } else if (filename_no_extension eq "MergeSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_MergeSort(x) with lines lw 2 title "Ajuste MergeSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_MergeSort(x) with lines lw 2 title "Tiempo teórico estimado"
     } else if (filename_no_extension eq "CountingSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_CountingSort(x) with lines lw 2 title "Ajuste CountingSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_CountingSort(x) with lines lw 2 title "Tiempo teórico estimado"
     } else if (filename_no_extension eq "InsertionSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_InsertionSort(x) with lines lw 2 title "Ajuste InsertionSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_InsertionSort(x) with lines lw 2 title "Tiempo teórico estimado"
     } else if (filename_no_extension eq "QuickSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_quicksort(x) with lines lw 2 title "Ajuste QuickSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_quicksort(x) with lines lw 2 title "Tiempo teórico estimado"
     } else if (filename_no_extension eq "SelectionSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_SelectionSort(x) with lines lw 2 title "Ajuste SelectionSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_SelectionSort(x) with lines lw 2 title "Tiempo teórico estimado"
     } else if (filename_no_extension eq "ShellSort") {
-        plot file using 1:2 with points lw 2 title "Datos", f_ShellSort(x) with lines lw 2 title "Ajuste ShellSort"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_ShellSort(x) with lines lw 2 title "Tiempo teórico estimado"
     }
 
     # Restaurar la salida a la pantalla
