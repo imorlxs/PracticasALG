@@ -33,7 +33,7 @@ test: $(BINARIES) | $(DAT) $(IMG)
         if [ ! -e $(DAT)/$$binary_name.dat ]; then \
             echo "[+] Ejecutando $$binary..."; \
             if [ "$$binary_name" = "BubbleSort" ]; then \
-                numbers=$$(seq 100 1000 30000); \
+                numbers=$$(seq 100 100 3000); \
             elif [ "$$binary_name" = "QuickSort" ]; then \
                 numbers=$$(seq 100 100000 3000000); \
             elif [ "$$binary_name" = "MergeSort" ]; then \
@@ -42,11 +42,12 @@ test: $(BINARIES) | $(DAT) $(IMG)
                 echo "Algoritmo desconocido: $$binary_name"; \
                 numbers=$$(seq 100 1000 30000); \
             fi; \
-            ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null; \
+            ./$$binary $(DAT)/$$binary_name\.dat $(SEED) $$numbers > /dev/null & \
         else \
             echo "[+] Archivo .dat para $$binary_name ya existe. No se ejecutan pruebas."; \
         fi; \
-    done
+    done; \
+		wait
 	@echo "[+] Generando gráficas..."
 	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
 

@@ -5,7 +5,7 @@ set ylabel "Tiempo (µs)"
 set grid
 
 # Definir las funciones f(x) para cada tipo de algoritmo de ordenamiento
-f_BubbleSort(x) = a*x**2 + b*x + c
+f_BubbleSort(x) = a*x**2
 f_MergeSort(x) = a*x*log(x)
 f_CountingSort(x) = a*x
 f_InsertionSort(x) = a*x**2
@@ -26,7 +26,7 @@ do for [file in file_list] {
 
     # Ajustar la función correspondiente a los datos del archivo
     if (filename_no_extension eq "BubbleSort") {
-        fit f_BubbleSort(x) file via a, b, c
+        fit f_BubbleSort(x) file via a
     } else if (filename_no_extension eq "MergeSort") {
         fit f_MergeSort(x) file via a
     } else if (filename_no_extension eq "CountingSort") {
