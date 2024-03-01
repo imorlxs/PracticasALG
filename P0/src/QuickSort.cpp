@@ -8,7 +8,7 @@
 #include <fstream> // Para usar ficheros
 using namespace std;
 
-void QuickSort(int *v, int start, int end);
+void quickSort(int *v, int start, int end);
 
 
 int main(int argc, char *argv[]) {
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
 		cerr << "Ejecutando QuickSort para tam. caso: " << n << endl;
 		
 		t0= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
-		QuickSort(v, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
+		quickSort(v, 0, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
 		tf= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuciÛn del algoritmo
 		
 		unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
@@ -76,57 +76,56 @@ int main(int argc, char *argv[]) {
 /*
  * Source: https://www.geeksforgeeks.org/cpp-program-for-quicksort/
  */
-int partition(int v*, int start, int end)
-{
+int partition(int *v, int start, int end){
  
-    int pivot = arr[start];
+    int pivot = v[start];
  
     int count = 0;
     for (int i = start + 1; i <= end; i++) {
-        if (arr[i] <= pivot)
+        if (v[i] <= pivot)
             count++;
     }
  
     // Giving pivot element its correct position
     int pivotIndex = start + count;
-    swap(arr[pivotIndex], arr[start]);
+    swap(v[pivotIndex], v[start]);
  
     // Sorting left and right parts of the pivot element
     int i = start, j = end;
  
     while (i < pivotIndex && j > pivotIndex) {
  
-        while (arr[i] <= pivot) {
+        while (v[i] <= pivot) {
             i++;
         }
  
-        while (arr[j] > pivot) {
+        while (v[j] > pivot) {
             j--;
         }
  
         if (i < pivotIndex && j > pivotIndex) {
-            swap(arr[i++], arr[j--]);
+            swap(v[i++], v[j--]);
         }
     }
  
     return pivotIndex;
 }
  
-void quickSort(int arr[], int start, int end)
+void quickSort(int *v, int start, int end)
 {
  
     // base case
     if (start >= end)
         return;
  
-    // partitioning the array
-    int p = partition(arr, start, end);
+    // partitioning the vay
+    int p = partition(v, start, end);
  
     // Sorting the left part
-    quickSort(arr, start, p - 1);
+    quickSort(v, start, p - 1);
  
     // Sorting the right part
-    quickSort(arr, p + 1, end);
+    quickSort(v, p + 1, end);
 }
 
 
