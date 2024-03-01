@@ -9,15 +9,18 @@
 #include <fstream> // Para usar ficheros
 using namespace std;
 
-void Ordena_Insercion(int *v, int n)
-{
-	for(int i = 0; i < n; i++){
-		int value = *(v + i);
-		for(int j = i-1; j >= 0 && *(v + j) > value; j--){
-			*(v + (j+1)) = *(v + j);
-		}
-		*(v + (j+1)) = value;
-	}
+void Ordena_Insercion(int *v, int n) {
+    for (int i = 1; i < n; ++i) {
+        int value = *(v + i);
+        int j = i - 1;
+
+        while (j >= 0 && *(v + j) > value) {
+            *(v + (j + 1)) = *(v + j);
+            j = j - 1;
+        }
+
+       *(v + (j + 1)) = value;
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -58,10 +61,10 @@ int main(int argc, char *argv[]) {
 		for (i= 0; i<n; i++)
 			v[i]= rand()%n;
 		
-		cerr << "Ejecutando Burbuja para tam. caso: " << n << endl;
+		cerr << "Ejecutando Insecion para tam. caso: " << n << endl;
 		
 		t0= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
-		OrdenaBurbuja(v, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
+		Ordena_Insercion(v, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
 		tf= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuciÛn del algoritmo
 		
 		unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
@@ -80,4 +83,3 @@ int main(int argc, char *argv[]) {
 	
 	return 0;
 }
-
