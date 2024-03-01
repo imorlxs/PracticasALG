@@ -6,12 +6,12 @@ set grid
 
 # Definir las funciones f(x) para cada tipo de algoritmo de ordenamiento
 f_BubbleSort(x) = a*x**2
-f_MergeSort(x) = a*x*log(x)
+f_MergeSort(x) = a*x*log10(x)
 f_CountingSort(x) = a*x
 f_InsertionSort(x) = a*x**2
-f_quicksort(x) = a*x*log(x)
+f_quicksort(x) = a*x*log10(x)
 f_SelectionSort(x) = a*x**2
-f_ShellSort(x) = a*x*log(x)*log(x)
+f_ShellSort(x) = a*x*log10(x)*log10(x)
 
 # Obtener la lista de archivos .dat en la carpeta dat/
 file_list = system("ls dat/*.dat 2>/dev/null")
