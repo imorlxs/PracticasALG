@@ -10,8 +10,8 @@ DATAS = $(patsubst $(SRC)/%.cpp, $(DAT)/%.dat, $(CPP_SOURCE))
 CXXFLAGS = -std=c++11
 GNUPLOT_SCRIPT = $(SRC)/graficar.gp
 CXX = g++
-NUMBERS_N2 = $$(seq 100 1000 20000)
-NUMBERS_NLOGN = $$(seq 1000 10000 300000)
+NUMBERS_N2 = $$(seq 100 1000 30000)
+NUMBERS_NLOGN = $$(seq 1000 10000 900000)
 N2ALGS = bin/BubbleSort bin/InsertionSort bin/SelectionSort
 #######################################################################
 
@@ -21,7 +21,7 @@ all: $(BIN) $(BINARIES)
 data: $(DAT) $(DATAS)
 	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
 
-graphic: $(IMG) data clean-fit-log
+graphic: $(IMG) clean-fit-log
 	@echo "[+] Generando gráficas..."
 	@gnuplot $(GNUPLOT_SCRIPT) 2> /dev/null
 
