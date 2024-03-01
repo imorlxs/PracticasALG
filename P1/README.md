@@ -18,28 +18,18 @@ El proyecto tiene la siguiente estructura de carpetas:
 
 ## Uso
 
-### Compilación
+## Compilación y Ejecución
 
-Para compilar el proyecto, ejecuta el siguiente comando:
+1. Asegúrate de tener **g++** instalado en tu sistema.
+2. Ejecuta `make ` para compilar todos los binarios.
+3. Para generar los datos, ejecuta `make data`.
+4. Si deseas crear las gráficas, utiliza `make graphic`.
 
-```bash
-make
-```
+## Limpieza
 
-### Ejecución de pruebas
-Para ejecutar las pruebas y generar datos y las gráficas:
+- `make clean`: Elimina todos los archivos generados y binarios.
+- `make clean-data`: Elimina solo las tablas de datos.
+- `make clean-img`: Elimina solo las gráficas.
+- `make clean`: Elimina todos los archivos generados y binarios.
 
-```bash
-make test
-```
 
-### Limpieza
-Para eliminar todos los archivos generados:
-```bash
-make clean
-```
-### Ayuda
-Para obtener una lista de todas las opciones disponibles, ejecuta:
-```bash
-make help
-```
