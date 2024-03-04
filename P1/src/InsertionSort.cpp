@@ -9,16 +9,17 @@
 #include <fstream> // Para usar ficheros
 using namespace std;
 
-void InsertionSort(int *v, int n) {
-    for (int i = 1; i < n; ++i) {
-        int value = *(v + i);
-        int j = i - 1;
+void InsertionSort(int *v, int n){
+    for (int i = 1; i < n; ++i){ 
+        int value = *(v + i); //Selección del valor actual
+        int j = i - 1; //Selección de la posición de comparación
 
-        while (j >= 0 && *(v + j) > value) {
+        //Bucle de comparaciones y desplazamientos
+
+        while (j >= 0 && *(v + j) > value){ 
             *(v + (j + 1)) = *(v + j);
             j = j - 1;
         }
-
        *(v + (j + 1)) = value;
     }
 }
