@@ -9,7 +9,7 @@ f_BubbleSort(x) = a*x**2
 f_MergeSort(x) = a*x*log10(x)
 f_CountingSort(x) = a*x
 f_InsertionSort(x) = a*x**2
-f_quicksort(x) = a*x*log10(x)
+f_QuickSort(x) = a*x*log10(x)
 f_SelectionSort(x) = a*x**2
 f_ShellSort(x) = a*x*log10(x)*log10(x)
 
@@ -38,7 +38,7 @@ do for [file in file_list] {
         fit f_InsertionSort(x) file via a
     } 
     if (filename_no_extension eq "QuickSort") {
-        fit f_quicksort(x) file via a
+        fit f_QuickSort(x) file via a
     }
     if (filename_no_extension eq "SelectionSort") {
         fit f_SelectionSort(x) file via a
@@ -68,7 +68,7 @@ do for [file in file_list] {
         plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_InsertionSort(x) with lines lw 2 title "Tiempo teórico estimado"
     }
     if (filename_no_extension eq "QuickSort") {
-        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_quicksort(x) with lines lw 2 title "Tiempo teórico estimado"
+        plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_QuickSort(x) with lines lw 2 title "Tiempo teórico estimado"
     }
     if (filename_no_extension eq "SelectionSort") {
         plot file using 1:2 with points lw 2 title "Eficiencia práctica", f_SelectionSort(x) with lines lw 2 title "Tiempo teórico estimado"
