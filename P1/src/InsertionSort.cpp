@@ -9,7 +9,7 @@
 #include <fstream> // Para usar ficheros
 using namespace std;
 
-void Ordena_Insercion(int *v, int n) {
+void InsertionSort(int *v, int n) {
     for (int i = 1; i < n; ++i) {
         int value = *(v + i);
         int j = i - 1;
@@ -61,10 +61,10 @@ int main(int argc, char *argv[]) {
 		for (i= 0; i<n; i++)
 			v[i]= rand()%n;
 		
-		cerr << "Ejecutando Insecion para tam. caso: " << n << endl;
+		cerr << "Ejecutando Insercion para tam. caso: " << n << endl;
 		
 		t0= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
-		Ordena_Insercion(v, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
+		InsertionSort(v, n); // Ejecutamos el algoritmo para tamaÒo de caso tam
 		tf= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuciÛn del algoritmo
 		
 		unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
