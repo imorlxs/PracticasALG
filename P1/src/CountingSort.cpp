@@ -5,33 +5,34 @@ using namespace std;
 
 void CountingSort(int *v, int tam){
 
-    int max = v[0];
+    int max = v[0];     // Inicializa el máximo al valor de la posición 0
+
     for (int i = 0; i < tam; i++){
-        if (v[i] > max)
+        if (v[i] > max)             // Calcula el máximo valor del vector
             max = v[i];
     }
 
-    int *count = new int[max+1];
-    int *out = new int[tam];
+    int count[max+1];   // Vector que almacena el número de veces que aparece el índice en el vector de entrada 
+    int out[tam];       // Vector de salida
 
     for (int i = 0; i < max; i++){
-        count[i] = 0;
+        count[i] = 0;               // Inicia el vector del conteo a 0
     }
 
     for (int i = 0; i < tam; i++){
-        count[v[i]]++;
+        count[v[i]]++;              // Almacena en count el nº de veces que aparece el índice en el vector de salida
     }
 
-    for (int i = 1; i < max; i++){
-        count[i] = count[i] + count[i-1];
+    for (int i = 1; i <= max; i++){
+        count[i] = count[i] + count[i-1];  // La casilla i del vector count tendrá el valor de la anterior más ella mísma
     }
 
-    for (int i = tam-1; i >= 0; i--){
-        out[--count[v[i]]] = v[i];
+    for (int i = tam-1; i >= 0; i--){   
+        out[--count[v[i]]] = v[i];     // Pone en el vector de salida los valores ordenados
     }
 
     for (int i = 0; i < tam; i++){
-        v[i] = out[i];
+        v[i] = out[i];              // Pone los valores ordenados en el vector de entrada
     }
 }
 
