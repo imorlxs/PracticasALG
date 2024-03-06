@@ -11,7 +11,7 @@ Este proyecto proporciona un conjunto de herramientas y scripts para compilar, e
 
 El proyecto tiene la siguiente estructura de carpetas:
 
-- **src**: Contiene los archivos fuente en C++. **¡IMPORTANTE** El nombre de los archivos debe estar en inglés y en SnakeCase, con la primera letra mayúscula. De lo contrario, las gráficas no se generarán.
+- **src**: Contiene los archivos fuente en C++. **¡IMPORTANTE** El nombre de los archivos debe estar en inglés y en CamelCase, con la primera letra mayúscula. De lo contrario, las gráficas no se generarán.
 - **bin**: Aquí se almacenan los binarios ejecutables generados.
 - **dat**: Carpeta donde se guardan los datos generados por las pruebas.
 - **img**: Las gráficas generadas se almacenan en esta carpeta.
