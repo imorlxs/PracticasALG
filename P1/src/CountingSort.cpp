@@ -12,8 +12,8 @@ void CountingSort(int *v, int tam){
             max = v[i];
     }
 
-    int count[max+1];   // Vector que almacena el número de veces que aparece el índice en el vector de entrada 
-    int out[tam];       // Vector de salida
+    int *count = new int[max+1];   // Vector que almacena el número de veces que aparece el índice en el vector de entrada 
+    int *out = new int[tam];       // Vector de salida
 
     for (int i = 0; i < max; i++){
         count[i] = 0;               // Inicia el vector del conteo a 0
