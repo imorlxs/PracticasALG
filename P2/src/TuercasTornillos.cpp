@@ -17,7 +17,6 @@ int genera_entero_aleatorio(int menor, int mayor){
     return (rand() % (mayor - menor + 1)) + menor;   
 }
 
-
 int main(int argc, char* argv[]){
     
     //Control de los argumentos
@@ -37,7 +36,7 @@ int main(int argc, char* argv[]){
         mayor = a;
     }
 
-    if((mayor - menor) < n){
+    if((mayor - menor) < n){ //Esto debido a que deben ser claves únicas    
         cerr << "[-] El rango de números debe ser mayor que la cantidad de elementos a almacenar";
         return -1;
     }
@@ -48,7 +47,7 @@ int main(int argc, char* argv[]){
 
     set<int> secuencia_base;
 
-    srand(time(0)); 
+    srand(time(0)); //Semilla para los números aleatorios
 
     while(secuencia_base.size() < n){
         int elemento = genera_entero_aleatorio(menor, mayor);
@@ -59,12 +58,14 @@ int main(int argc, char* argv[]){
 
     int tornillos[n];
     int tuercas[n];
-    int tuercas_ordenadas[n];
+    int tuercas_ordenadas[n]; //Vector auxiliar que usaremos luego
 
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < n; i++){ //Relleno de 0s los vectores para tener forma de comparación
         tornillos[i] = 0;
         tuercas[i] = 0;
     }
+
+    //Relleno los dos vectores de forma aleatoria 
 
     for(const int& elem : secuencia_base){
         int pos;
@@ -80,6 +81,9 @@ int main(int argc, char* argv[]){
         tuercas[pos] = elem;
     }
 
+//---------------------------------------------------------------------------
+    //Si tenemos que hacer 800 pruebas esto será despreciable   
+    
     cout << "Tornillos" << endl;
 
     for(int i = 0; i < n; i++){
@@ -91,8 +95,11 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < n; i++){
         cout << tuercas[i] << " ";
     }
+//---------------------------------------------------------------------------
 
     //SEGUNDA PARTE: ORDENACIÓN DE VECTORES
+
+    //Eficiencia teórica: O(n²) (bucle interior hace n iteraciones por cada una de bucle exterior, nxn)
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++){
@@ -103,9 +110,12 @@ int main(int argc, char* argv[]){
         }
     }
 
-   for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
         tuercas[i] = tuercas_ordenadas[i];
     }
+
+//---------------------------------------------------------------------------
+    //Si tenemos que hacer 800 pruebas esto será despreciable   
 
     cout << endl << "Tornillos" << endl;
 
@@ -118,6 +128,5 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < n; i++){
         cout << tuercas[i] << " ";
     }
-
-    return 0;
+//---------------------------------------------------------------------------
 }
