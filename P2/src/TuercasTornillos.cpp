@@ -29,6 +29,8 @@ int main(int argc, char* argv[]){
     int menor = atoi(argv[2]);
     int mayor = atoi(argv[3]);
 
+    //Cambiar el rango en caso de error
+
     if(menor > mayor){
         int a = menor;
         menor = mayor;
@@ -40,8 +42,9 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
+    //PRIMERA PARTE: GENERACIÓN DE VECTORES
+
     //Creación de un conjunto de n elementos aleatorios en un rango menor - mayor
-    //Proceso: creación set -> creación dos vectores estáticos ordenados aleatoriamente
 
     set<int> secuencia_base;
 
@@ -52,15 +55,16 @@ int main(int argc, char* argv[]){
         secuencia_base.insert(elemento);
     }
 
+    //Creación dos vectores estáticos ordenados aleatoriamente
+
     int tornillos[n];
     int tuercas[n];
+    int tuercas_ordenadas[n];
 
     for(int i = 0; i < n; i++){
         tornillos[i] = 0;
         tuercas[i] = 0;
     }
-
-    //
 
     for(const int& elem : secuencia_base){
         int pos;
@@ -77,6 +81,33 @@ int main(int argc, char* argv[]){
     }
 
     cout << "Tornillos" << endl;
+
+    for(int i = 0; i < n; i++){
+        cout << tornillos[i] << " ";
+    }
+
+    cout << endl << "Tuercas" << endl;
+
+    for(int i = 0; i < n; i++){
+        cout << tuercas[i] << " ";
+    }
+
+    //SEGUNDA PARTE: ORDENACIÓN DE VECTORES
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            if(tornillos[i] == tuercas[j]){
+                tuercas_ordenadas[i] = tuercas[j];
+                break;
+            }
+        }
+    }
+
+   for(int i = 0; i < n; i++) {
+        tuercas[i] = tuercas_ordenadas[i];
+    }
+
+    cout << endl << "Tornillos" << endl;
 
     for(int i = 0; i < n; i++){
         cout << tornillos[i] << " ";
