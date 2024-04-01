@@ -10,6 +10,18 @@
 
 using namespace std;
 
+int genera_entero_aleatorio(int menor, int mayor){
+
+    if(menor > mayor){
+        int a = menor;
+        menor = mayor;
+        mayor = a;
+    }
+
+    return (rand() % (mayor - menor + 1)) + menor;   
+}
+
+
 int main(int argc, char* argv[]){
     
     //Control de los argumentos
@@ -26,12 +38,6 @@ int main(int argc, char* argv[]){
         return -1;
     }
 
-    if(menor > mayor){
-        int a = menor;
-        menor = mayor;
-        mayor = a;
-    }
-
     //Creación de un conjunto de n elementos aleatorios en un rango menor - mayor
     //Proceso: creación set -> creación dos vectores estáticos ordenados aleatoriamente
 
@@ -40,15 +46,45 @@ int main(int argc, char* argv[]){
     srand(time(0)); 
 
     while(secuencia_base.size() < n){
-        int elemento = (rand() % (mayor - menor + 1)) + menor;
+        int elemento = genera_entero_aleatorio(menor, mayor);
         secuencia_base.insert(elemento);
     }
 
-    /*cout << "Conjunto base" << endl;
+    int tornillos[n];
+    int tuercas[n];
 
-    for (int elem : secuencia_base) {
-        cout << elem << " ";
-    }*/
+    for(int i = 0; i < n; i++){
+        tornillos[i] = 0;
+        tuercas[i] = 0;
+    }
+
+    for(const int& elem : secuencia_base){
+        //Crear variable que decide en que posición se insertará "elem"
+        //en tornillos
+        int pos;
+
+        do{
+            pos = genera_entero_aleatorio(0, n);
+        }while(tornillos[pos] != 0);
+        tornillos[pos] = elem;
+
+        do{
+            pos = genera_entero_aleatorio(0, n);
+        }while(tuercas[pos] != 0);
+        tuercas[pos] = elem;
+    }
+
+    cout << "Tornillos" << endl;
+
+    for(int i = 0; i < n; i++){
+        cout << tornillos[i] << " ";
+    }
+
+    cout << endl << "Tuercas" << endl;
+
+    for(int i = 0; i < n; i++){
+        cout << tuercas[i] << " ";
+    }
 
     return 0;
 }
