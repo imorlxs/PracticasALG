@@ -13,6 +13,7 @@ using namespace std;
 int main(int argc, char* argv[]){
     
     //Control de los argumentos
+
     if(argc != 4 || atoi(argv[2]) < 0 || atoi(argv[1]) <= 0 || atoi(argv[3]) <= 0)
         cerr << "[-] Uso: " << argv[0] << " <n de elementos> <valor min (> 0)> <valor max>" << endl;  
 
@@ -31,20 +32,23 @@ int main(int argc, char* argv[]){
         mayor = a;
     }
 
+    //Creación de un conjunto de n elementos aleatorios en un rango menor - mayor
+    //Proceso: creación set -> creación dos vectores estáticos ordenados aleatoriamente
+
     set<int> secuencia_base;
 
-    srand(time(0));
+    srand(time(0)); 
 
     while(secuencia_base.size() < n){
         int elemento = (rand() % (mayor - menor + 1)) + menor;
         secuencia_base.insert(elemento);
     }
 
-    cout << "Conjunto base" << endl;
+    /*cout << "Conjunto base" << endl;
 
     for (int elem : secuencia_base) {
         cout << elem << " ";
-    }
+    }*/
 
     return 0;
 }
