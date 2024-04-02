@@ -10,7 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="de847418-b71d-4451-b998-6059f951727b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/P1/makefile" beforeDir="false" afterPath="$PROJECT_DIR$/P1/makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/P2/src/OrganizarCalendarioCampeonato.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/P2/src/OrganizarCalendarioCampeonato.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +67,7 @@
       <workItem from="1709813280801" duration="3000" />
       <workItem from="1709833218251" duration="40000" />
       <workItem from="1711123960231" duration="52000" />
+      <workItem from="1712093275141" duration="72000" />
     </task>
     <servers />
   </component>
