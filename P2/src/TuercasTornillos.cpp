@@ -81,6 +81,8 @@ int main(int argc, char* argv[]){
         tuercas[pos] = elem;
     }
 
+    secuencia_base.clear(); //Este conjunto ya no es
+
 //---------------------------------------------------------------------------
     //Si tenemos que hacer 800 pruebas esto será despreciable   
     
