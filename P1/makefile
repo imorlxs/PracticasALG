@@ -11,7 +11,7 @@ CXXFLAGS = -std=c++11
 GNUPLOT_SCRIPT = $(SRC)/graficar.gp
 CXX = g++
 NUMBERS_N2 = $$(seq 100 1000 30000)
-NUMBERS_NLOGN = $$(seq 1000 10000 900000)
+NUMBERS_NLOGN = $$(seq 1000 100000 5000000)
 N2ALGS = bin/BubbleSort bin/InsertionSort bin/SelectionSort
 #######################################################################
 
