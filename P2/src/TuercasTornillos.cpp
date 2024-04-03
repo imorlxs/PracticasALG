@@ -18,19 +18,17 @@ int genera_entero_aleatorio(int menor, int mayor){
 }
 
 void ordena_tuercas_tornillos(int *tuercas, int *tornillos, int *aux, int n){
-
-    //Eficiencia teórica: O(n²) (bucle interior hace n iteraciones por cada una de bucle exterior, nxn)
-
-    for(int i = 0; i < n; i++){
+    
+    for(int i = 0; i < n; i++){ //Se recorren los tornillos
         for(int j = 0; j < n; j++){
-            if(tornillos[i] == tuercas[j]){
-                aux[i] = tuercas[j];
+            if(tornillos[i] == tuercas[j]){ //Cuando se encuentra una coincidencia
+                aux[i] = tuercas[j]; //Se copia al vector auxiliar y se sale del bucle
                 break;
             }
         }
     }
 
-    for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) { //Se copia el resultado en el vector de tuercas
         tuercas[i] = aux[i];
     }
 }
