@@ -30,35 +30,59 @@ using namespace std;
 void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
     int dia = 1;
     for (const auto& partidos : calendario){
-        cout << "Día " << dia++ << ": " << endl;
+        cout << "Jornada " << dia++ << ": " << endl;
         for (const auto& partido : partidos){
-            cout << "Partido " << partido.first << " vs " << partido.second << endl;
+            cout << partido.first << " vs " << partido.second << endl;
         }
     }
 
-    cout << endl;
+    cout << "\n\n";
 }
 
 
-// Función que va a construir el calendario del torneo
-vector<vector<pair<int,int>>> construirCalendario(int n){
+// Método para rotar los equipos y evitar tanto repeticiones como valores inválidos
+// Ejemplo: que '1' juegue con '1' o que haya '4' equipos y el '3' juegue con el '5'
+void rotarEquipos(vector<int>& equipos){
+    
+    // Guardamos "bajo llave" el primer equipo, que no se moverá
+    int equipoFijo = equipos[0];
+    
+    // Guardamos el segundo equipo para moverlo al final tras la rotación de todos los demás
+    int equipoMoverFinal = equipos[1];
 
-    // Dado que se trata de un formato liguilla, hay n-1 oponentes disponibles puesto que no
-    // pondremos a jugar a un equipo conta sí mismo, habiendo n/2 partidos a jugar.
+    // Rotación de los equipos
+    for (int i = 1; i < equipos.size() - 1; i++)
+        equipos[i] = equipos[i+1];
+    
+    //Colocamos el segundo equipo al final del todo
+    equipos[equipos.size() - 1] = equipoMoverFinal;
+    
+    // Restauramos el equipo fijo
+    equipos[0] = equipoFijo;
+}
+
+// Función que va a construir el calendario del torneo
+// El calendario tendrá dos elementos (matriz) --> [día (jornada)][partidos]
+vector<vector<pair<int,int>>> construirCalendario(int n){
     
     // Inicializamos el calendario
     vector<vector<pair<int,int>>> calendario(n-1, vector<pair<int,int>>(n/2));
+    
+    // Vector auxiliar que va a almacenar los equipos disponibles para sortear
+    vector<int> disponibles(n);
+
+    // Inicializamos los equipos disponibles
+    for (int i = 0; i < n; i++)
+        disponibles[i] = i+1;
 
     // Rellenamos el calendario con los partidos
-    int equipoA, equipoB;
     for (int dia = 0; dia < n-1; dia++){
-        equipoA = 1;
-        equipoB = n - dia;
+        if (dia > 0) // No rotamos en el primer día
+            rotarEquipos(disponibles);
+
         for (int partido = 0; partido < n/2; partido++){
-            calendario[dia][partido] = make_pair(equipoA++,equipoB++);
-            if (equipoB > n-1)
-                equipoB = 2;
-        }
+            calendario[dia][partido] = make_pair(disponibles[partido], disponibles[n - partido - 1]);
+        }       
     }
 
     return calendario;
@@ -93,7 +117,7 @@ int main(int argc, char **argv)
 
         cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
 
-        // Construcción del calendario
+        // Construcción e impresión por pantalla del calendario
         vector<vector<pair<int,int>>> calendario = construirCalendario(n);
         cout << "Calendario del torneo:" << endl;
         imprimirCalendario(calendario);
