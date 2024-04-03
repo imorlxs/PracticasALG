@@ -17,8 +17,10 @@ int genera_entero_aleatorio(int menor, int mayor){
     return (rand() % (mayor - menor + 1)) + menor;   
 }
 
-void ordena_tuercas_tornillos(int *tuercas, int *tornillos, int *aux, int n){
-    
+void ordena_tuercas_tornillos(int *tuercas, int *tornillos, int n){
+
+    int aux[n];	
+
     for(int i = 0; i < n; i++){ //Se recorren los tornillos
         for(int j = 0; j < n; j++){
             if(tornillos[i] == tuercas[j]){ //Cuando se encuentra una coincidencia
@@ -74,8 +76,7 @@ int main(int argc, char* argv[]){
 
     int tornillos[n];
     int tuercas[n];
-    int tuercas_ordenadas[n]; //Vector auxiliar que usaremos luego
-
+    
     for(int i = 0; i < n; i++){ //Relleno de 0s los vectores para tener forma de comparación
         tornillos[i] = 0;
         tuercas[i] = 0;
