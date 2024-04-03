@@ -97,7 +97,7 @@ bool esPotenciaDeDos(int n){
 int main(int argc, char **argv)
 {
     int n;  //nº de partidos
-
+    
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
 
     if (argc != 2)
