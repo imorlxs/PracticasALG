@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
 
     //SEGUNDA PARTE: ORDENACIÓN DE VECTORES
 
-    ordena_tuercas_tornillos(tuercas, tornillos, tuercas_ordenadas, n);
+    ordena_tuercas_tornillos(tuercas, tornillos, n);
 
 //---------------------------------------------------------------------------
     //Si tenemos que hacer 800 pruebas esto será despreciable   
