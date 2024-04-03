@@ -17,6 +17,24 @@ int genera_entero_aleatorio(int menor, int mayor){
     return (rand() % (mayor - menor + 1)) + menor;   
 }
 
+void ordena_tuercas_tornillos(int *tuercas, int *tornillos, int *aux, int n){
+
+    //Eficiencia teórica: O(n²) (bucle interior hace n iteraciones por cada una de bucle exterior, nxn)
+
+    for(int i = 0; i < n; i++){
+        for(int j = 0; j < n; j++){
+            if(tornillos[i] == tuercas[j]){
+                aux[i] = tuercas[j];
+                break;
+            }
+        }
+    }
+
+    for(int i = 0; i < n; i++) {
+        tuercas[i] = aux[i];
+    }
+}
+
 int main(int argc, char* argv[]){
     
     //Control de los argumentos
@@ -101,20 +119,7 @@ int main(int argc, char* argv[]){
 
     //SEGUNDA PARTE: ORDENACIÓN DE VECTORES
 
-    //Eficiencia teórica: O(n²) (bucle interior hace n iteraciones por cada una de bucle exterior, nxn)
-
-    for(int i = 0; i < n; i++){
-        for(int j = 0; j < n; j++){
-            if(tornillos[i] == tuercas[j]){
-                tuercas_ordenadas[i] = tuercas[j];
-                break;
-            }
-        }
-    }
-
-    for(int i = 0; i < n; i++) {
-        tuercas[i] = tuercas_ordenadas[i];
-    }
+    ordena_tuercas_tornillos(tuercas, tornillos, tuercas_ordenadas, n);
 
 //---------------------------------------------------------------------------
     //Si tenemos que hacer 800 pruebas esto será despreciable   
