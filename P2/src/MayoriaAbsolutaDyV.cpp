@@ -11,8 +11,8 @@
 #include <unordered_map>
 using namespace std;
 
-int MayoriaAbsoluta(int *v, int n);
-
+bool MayoriaAbsoluta(int *v, int inicio, int ultimo);
+bool BuscaCandidato(int *v, int inicio, int ultimo, int &candidato);
 
 int main(int argc, char *argv[]) {
 	
@@ -26,7 +26,8 @@ int main(int argc, char *argv[]) {
   int elementos = argc - 2;
   v = new int[elementos];
 	
-  int n, i, argumento, candidato_mayoria;
+  int n, elementosi, argumento;
+  bool candidato_mayoria;
     chrono::time_point<chrono::high_resolution_clock> t0, tf; // Para medir el tiempo de ejecución
 	ofstream fsalida;
 	
@@ -39,20 +40,23 @@ int main(int argc, char *argv[]) {
 	}
 	
 	// Pasamos por cada elemento de la entrada
-	i = 0;
+	elementosi = 0;
   for (argumento= 2; argumento<argc; argumento++) {
 		// Cogemos el tamanio del caso
 		n= atoi(argv[argumento]);
 		
 	  // Introducimos el elemento en el vector
-    v[i] = n;
-    i++;
+    v[elementosi] = n;
+    elementosi++;
   }	
   cerr << "Ejecutando Mayoría Absoluta" << endl;
   
+  for(int j = 0; j < elementosi; j++)
+    cout << v[j] << " ";
+  cout << endl;
   t0= chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
-  candidato_mayoria = MayoriaAbsoluta(v, elementos); // Ejecutamos el algoritmo
-  tf= chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuciÛn del algoritmo
+  candidato_mayoria = MayoriaAbsoluta(v, 0, elementosi-1); // Ejecutamos el algoritmo
+  tf= chrono::high_resolution_clock::now(); // Cogemos el tiempo en que ultimoiza la ejecuciÛn del algoritmo
   
   unsigned long tejecucion= chrono::duration_cast<chrono::microseconds>(tf - t0).count();
   
@@ -63,40 +67,70 @@ int main(int argc, char *argv[]) {
 	
 	// Cerramos fichero de salida
 	fsalida.close();
-  	
+  
+  for(int j = 0; j < elementos; j++)
+    cout << v[j] << " ";
+  cout << endl;
 	delete [] v;
-  if (candidato_mayoria == INT_MIN) {
+  if (!candidato_mayoria) {
     cout << "No hay candidato con mayoría absoluta." << endl;
   } else {
-    cout << "El candidato " << candidato_mayoria << " tiene mayoría absoluta." << endl;
+    cout << "Hay candidato con mayoría absoluta." << endl;
   }
 	
   return 0;
 }
 
-int MayoriaAbsoluta(int *v, int inicio, int final) {
-// Si el tamaño del vector es 1, el candidato es el único elemento
-  if (n == 1) {
-    return v[0];
+bool MayoriaAbsoluta(int *v, int inicio, int ultimo) {
+  // Comprueba si v[inicio..ultimo] contiene un elemento mayoritario
+  int suma, i, candidato;
+  suma = 0;
+  if (BuscaCandidato(v,inicio,ultimo,candidato)){
+    // Comprobar si el candidato es o no mayoritario
+    for (int i = inicio; i <= ultimo; i++){
+      if (v[i] == candidato)
+        suma++;
+    }
   }
+  return (suma > ((ultimo-inicio+1)/2));
 
-  // Dividir el vector en dos subvectores
-  int mitad = n / 2;
-
-  // Encontrar el candidato con mayoría absoluta en cada subvector
-  int candidato_izquierda = MayoriaAbsoluta(izquierda, mitad);
-  int candidato_derecha = MayoriaAbsoluta(derecha, n - mitad);
-
-  // Eliminar los subvectores
-  delete[] izquierda;
-  delete[] derecha;
-
-  // Si el candidato con mayoría absoluta es el mismo en ambos subvectores, es el candidato con mayoría absoluta en el vector completo
-  if (candidato_izquierda == candidato_derecha) {
-    return candidato_izquierda;
-  }
-
-  // Si no hay un candidato con mayoría absoluta en ambos subvectores, no hay un candidato con mayoría absoluta en el vector completo
-  return INT_MIN;
 }
 
+bool BuscaCandidato(int *v, int inicio, int ultimo, int &candidato){
+  int i, j;
+  candidato = v[inicio];
+  // Casos base
+  if (ultimo < inicio)
+    return false;
+
+  if (ultimo == inicio)
+    return true;
+
+  if (inicio+1 == ultimo){
+    candidato = v[ultimo];
+    return (v[inicio] == v[ultimo]);
+  }
+
+  // Caso general
+  j = inicio;
+  if ((ultimo-inicio+1)%2 == 0){
+    for (int i = inicio+1; i <= ultimo; i+=2){
+      if (v[i-1] == v[i]){
+        v[j] = v[i]; j++; 
+      }
+    }
+    return BuscaCandidato(v, inicio, j-1, candidato);
+  }
+  else{
+    for (int i = inicio; i < ultimo; i+=2){
+      if (v[i] == v[i+1]){
+        v[j] = v[i]; j++;
+      }
+    }
+
+    if (!BuscaCandidato(v, inicio, j-1, candidato))
+      candidato=v[ultimo];
+
+    return true;
+  }
+}
