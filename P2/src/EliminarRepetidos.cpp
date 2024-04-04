@@ -1,62 +1,94 @@
-#include <iostream>
-#include <vector>
-#include <set>
+#include<iostream>
+#include<set>
+#include<cstdlib>
+#include<ctime>
+#include<chrono>
+#include<fstream> 
 using namespace std;
 
-void eliminaRepetidos1(vector<int> &v){
+int genera_entero_aleatorio(int menor, int mayor){
 
-    vector<bool> repetidos(v.size(), false);
-    vector<int> nuevoV;
+    return (rand() % (mayor - menor + 1)) + menor;   
+}
 
-    for (int i = 0; i < v.size(); i++){
-        for (int j = i+1; j < v.size(); j++){
-            if (v[i] == v[j])
-                repetidos[j] = true;
+void InsertionSort(int *v, int n){
+    for (int i = 1; i < n; ++i){ 
+        int value = *(v + i); //Selección del valor actual
+        int j = i - 1; //Selección de la posición de comparación
+
+        //Bucle de comparaciones y desplazamientos
+
+        while (j >= 0 && *(v + j) > value){ 
+            *(v + (j + 1)) = *(v + j);
+            j = j - 1;
+        }
+       *(v + (j + 1)) = value;
+    }
+}
+
+void eliminaRepetidos(int* v, int &n){
+
+    // Paso 1: Ordenar el arreglo
+    InsertionSort(v, n);
+    
+    // Paso 2: Crear un arreglo temporal para almacenar los elementos únicos
+    int* temp = new int[n];
+    
+    // Paso 3: Copiar los elementos únicos al arreglo temporal
+    int j = 0; // Índice para el arreglo temporal
+    for (int i = 0; i < n - 1; i++) {
+        // Si el elemento actual es diferente del siguiente, lo copiamos a temp
+        if (v[i] != v[i + 1]) {
+            temp[j++] = v[i];
         }
     }
-
-    for (int i = 0; i < v.size(); i++){
-        if (!repetidos[i])
-            nuevoV.push_back(v[i]);
+    // Asegurar de copiar el último elemento
+    temp[j++] = v[n-1];
+    
+    // Paso 4: Copiar de vuelta al arreglo original los elementos de temp
+    for (int i = 0; i < j; i++) {
+        v[i] = temp[i];
     }
-
-    v = nuevoV;
-
+    
+    // Actualizar n al nuevo tamaño
+    n = j;
+    
+    // Liberar el arreglo temporal
+    delete[] temp;
 }
 
-void eliminaRepetidos2(vector<int> &v){
+int main(int argc, char* argv[]) {
 
-    set<int> nuevoV;
+    chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
+    ofstream salida;
 
-    for (int i = 0; i < v.size(); i++){
-        nuevoV.insert(v[i]);
+    if(argc != 3){
+        cerr << "[-] Uso: " << argv[0] << " <fichero salida> <n de elementos>" << endl;  
+        return -1;
     }
 
-    v.clear();
-
-    for (int i : nuevoV){
-        v.push_back(i);
+    salida.open(argv[1], std::ios::out | std::ios::app);
+    if (!salida.is_open()) {
+        cerr << "Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
+        return 0;
     }
 
-}
+    // Crear un vector con elementos repetidos
+    int arr[] = {3, 1, 2, 3, 2, 4, 5, 3};
+    int n = sizeof(arr) / sizeof(arr[0]);
 
-int main(int argc, char* argv){
-
-    vector<int> vec = {1, 2, 2, 4, 5, 9, 4, 2, 4, 6, 6, 3, 9, 0};
-
-    cout << "Vector original: ";
-    for (int i : vec) {
-        cout << i << " ";
+    cout << "Arreglo original: ";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
     }
     cout << endl;
 
-    // Llamada a la función eliminarRepetidos
-    // eliminaRepetidos1(vec);
-    eliminaRepetidos2(vec);
+    // Llamar a la función para eliminar elementos repetidos
+    eliminaRepetidos(arr, n);
 
-    cout << "Vector sin elementos repetidos: ";
-    for (int i : vec) {
-        cout << i << " ";
+    cout << "Arreglo sin elementos repetidos: ";
+    for (int i = 0; i < n; ++i) {
+        cout << arr[i] << " ";
     }
     cout << endl;
 
