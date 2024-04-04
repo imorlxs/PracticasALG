@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 	// Cerramos fichero de salida
 	fsalida.close();
   	
-	delete [] v
+	delete [] v;
   if (candidato_mayoria == INT_MIN) {
     cout << "No hay candidato con mayoría absoluta." << endl;
   } else {
