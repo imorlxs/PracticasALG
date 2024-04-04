@@ -60,32 +60,38 @@ void rotarEquipos(vector<int>& equipos){
 }
 
 vector<vector<pair<int,int>>> construirCalendarioDyV(vector<int>& equipos, int inicio, int fin){
+    
+    vector<vector<pair<int,int>>> calendario;
+
     // Casos base: sólo hay uno o dos equipos
     if (inicio == fin){
         return{};
-    } else if (fin - inicio == 1){
-        return {{make_pair(equipos[inicio], equipos[fin])}};
-    } else {
+    } 
+    else if (fin - inicio == 1){
+        calendario.push_back({{make_pair(equipos[inicio], equipos[fin])}});
+        return calendario;
+    } 
+    else {
         // Dividimos en dos mitades
         int mitad = (inicio + fin) / 2;
+
         vector<vector<pair<int,int>>> calendarioIzquierda = construirCalendarioDyV(equipos, inicio, mitad);
         vector<vector<pair<int,int>>> calendarioDerecha = construirCalendarioDyV(equipos, mitad + 1, fin);
-
-        //Combinamos los partidos generados por cada mitad
-        vector<vector<pair<int,int>>> calendarioActual;
-        calendarioActual.reserve(calendarioActual.size() + calendarioDerecha.size());
-        calendarioActual.insert(calendarioActual.end(), calendarioIzquierda.begin(), calendarioIzquierda.end());
-        calendarioActual.insert(calendarioActual.end(), calendarioDerecha.begin(), calendarioDerecha.end());
-
-        //Realizamos la rotación de equipos y añadimos los partidos adicionales
-        for (int i = 1; i < fin - inicio; i++){
+        
+        // Combina los calendarios generados por cada mitad
+        calendario.insert(calendario.end(), calendarioIzquierda.begin(), calendarioIzquierda.end());
+        calendario.insert(calendario.end(), calendarioDerecha.begin(), calendarioDerecha.end());
+        
+        // Realizamos la rotación de equipos y añadimos los partidos adicionales
+        for (int i = 1; i < fin - inicio; i++) {
             rotarEquipos(equipos);
-            for (int j = 0; j < calendarioIzquierda.size(); j++){
-                calendarioActual[j].emplace_back(make_pair(equipos[j], equipos[fin - inicio]));
+            vector<pair<int, int>> jornada;
+            for (int j = 0; j < calendarioIzquierda.size(); j++) {
+                jornada.push_back(make_pair(equipos[j], equipos[fin - inicio]));
             }
+            calendario.push_back(jornada);
         }
-
-        return calendarioActual;
+        return calendario;
     }
 }
 
@@ -124,21 +130,10 @@ int main(int argc, char **argv){
         }
 
         // Construcción e impresión por pantalla del calendario
-        vector<vector<pair<int,int>>> calendario = construirCalendarioDyV(equipos, 0, n - 1);
         cout << "Calendario del torneo:" << endl;
+        vector<vector<pair<int,int>>> calendario = construirCalendarioDyV(equipos, 0, n-1);
         imprimirCalendario(calendario);
-
-        /*// Imprime el calendario generado
-        for (int i = 0; i < calendario.size(); i++) {
-            cout << "Jornada " << i + 1 << ":" << endl;
-            for (int j = 0; j < calendario[i].size(); j++) {
-                cout << "  Equipo " << calendario[i][j].first << " vs Equipo " << calendario[i][j].second << endl;
-            }
-        }*/
-
     }
 
     return 0;
-
-
 }
