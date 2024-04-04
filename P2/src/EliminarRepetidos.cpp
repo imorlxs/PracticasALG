@@ -57,39 +57,43 @@ void eliminaRepetidos(int* v, int &n){
     delete[] temp;
 }
 
-int main(int argc, char* argv[]) {
 
+int main(int argc, char* argv[]) {
+    
     chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
     ofstream salida;
 
+    
     if(argc != 5 || atoi(argv[2]) <= 0 || atoi(argv[3]) < 0){
         cerr << "[-] Uso: " << argv[0] << " <fichero salida> <n de elementos> <valor mínimo(>= 0)> <valor máximo>" << endl;  
         return -1;
     }
-
-    int n = atoi(argv[2]); 
-    int mayor = atoi(argv[4]);
-    int menor = atoi(argv[3]);
-
+    
+    
+    int n = atoi(argv[1]); 
+    int menor = atoi(argv[2]);
+    int mayor = atoi(argv[3]);
+    
+    
     salida.open(argv[1], std::ios::out | std::ios::app);
     if (!salida.is_open()) {
         cerr << "Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
         return 0;
     }
-
+    
     // Crear un vector con elementos repetidos
-
+    
     set<int> secuencia_base;
-
+    
     srand(time(0)); //Semilla para los números aleatorios
 
-    while(secuencia_base.size() < n){
+    for (int i = 0; i < n; i++){
         int elemento = genera_entero_aleatorio(menor, mayor);
         secuencia_base.insert(elemento);
     }
-
+    
     int vec[n];
-
+    
     for (int i = 0; i < n; i++){
         vec[i] = 0;
     }
@@ -101,17 +105,18 @@ int main(int argc, char* argv[]) {
         }while(vec[pos] != 0);
         vec[pos] = elem;
     }
-
+    
     secuencia_base.clear();
-
+    
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidos(vec, n);
 	tf = std::chrono::high_resolution_clock::now();
-
+    
 	unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
-
+    
 	salida << n << " " << tejecucion << endl;
-
+    
     salida.close();
-
+    
 }
+
