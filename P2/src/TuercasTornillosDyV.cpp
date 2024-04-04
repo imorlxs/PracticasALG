@@ -17,64 +17,51 @@ int genera_entero_aleatorio(int menor, int mayor){
     return (rand() % (mayor - menor + 1)) + menor;   
 }
 
-int particionar(int *v, int pivote, int inicio, int fin){
-    int i = inicio;
-    int temp;
-
-    // Primero, encuentra el pivote en arr[] y lo intercambia con el elemento en fin.
-    for (int j = inicio; j < fin; j++) {
-        if (v[j] == pivote) {
-            temp = v[j];
-            v[j] = v[fin];
-            v[fin] = temp;
-            break; // Salir del bucle una vez que el pivote está al final.
-        }
-    }
-
-    // Ahora, procede con el particionado usual.
-    pivote = v[fin]; // El pivote ahora está en la posición fin.
-    int pIndex = inicio; // Posición del primer elemento mayor encontrado.
-
-    for (int j = inicio; j < fin; j++) {
-        if (v[j] < pivote) {
-            // Intercambia si el elemento es menor que el pivote.
-            temp = v[j];
-            v[j] = v[pIndex];
-            v[pIndex] = temp;
-            pIndex++;
-        }
-    }
-
-    // Coloca el pivote después del último elemento menor.
-    temp = v[pIndex];
-    v[pIndex] = v[fin];
-    v[fin] = temp;
-
-    return pIndex; // Retorna la posición del pivote.
+void intercambia(int &a, int &b){
+    int aux = a;
+    a = b;
+    b = aux;
 }
 
-int encuentraPivote(int* arr, int elemento, int n) {
-    for (int i = 0; i < n; i++) {
-        if (arr[i] == elemento) {
-            return i; // Retorna el índice del elemento coincidente.
+int particionar(int *v, int pivote, int inicio, int fin){
+
+    //Encuentra el pivote en v y lo intercambia con el elemento del final
+    for (int i = inicio; i < fin; i++){
+        if (v[i] == pivote) {
+            intercambia(v[i], v[fin]);
+            break; //Salir del bucle una vez que el pivote está al final
         }
     }
-    return -1; // En caso de que no se encuentre, lo cual no debería ocurrir en este contexto.
+
+    pivote = v[fin]; //El pivote ahora está en la posición fin
+    int p_index = inicio; //Posición del primer elemento mayor encontrado, comenzando por inicio
+
+    for (int i = inicio; i < fin; i++){
+        if (v[i] < pivote) {
+            //Intercambia si el elemento es menor que el pivote
+            intercambia(v[i], v[p_index]);
+            p_index++;
+        }
+    }
+
+    //Coloca el pivote después del último elemento menor
+    intercambia(v[p_index], v[fin]);
+
+    return p_index; //Retorna la posición del pivote
 }
 
 void ordena_tuercas_tornillos_dyv(int *tuercas, int *tornillos, int inicio, int fin){
 
-    if (inicio < fin) {
-        // Usa el primer elemento de tuercas como pivote para particionar tornillos.
-        int pivote = encuentraPivote(tornillos, tuercas[inicio], fin + 1); // Asegúrate de que el rango es correcto.
-        int pIndex = particionar(tornillos, tuercas[inicio], inicio, fin);
+    if (inicio < fin){
+        //Usa el primer elemento de tuercas como pivote para particionar tornillos
+        int p_index = particionar(tornillos, tuercas[inicio], inicio, fin);
 
-        // Ahora usa el tornillo que coincide con el pivote original para particionar tuercas.
-        particionar(tuercas, tornillos[pIndex], inicio, fin); // Aquí, tornillos[pIndex] es el valor correcto.
+        //Ahora usa el tornillo que coincide con el pivote original para particionar tuercas
+        particionar(tuercas, tornillos[p_index], inicio, fin); //Aquí, tornillos[pIndex] es el valor correcto
 
-        // Recursivamente ordena las mitades izquierda y derecha.
-        ordena_tuercas_tornillos_dyv(tuercas, tornillos, inicio, pIndex - 1);
-        ordena_tuercas_tornillos_dyv(tuercas, tornillos, pIndex + 1, fin);
+        //Recursivamente ordena las mitades izquierda y derecha
+        ordena_tuercas_tornillos_dyv(tuercas, tornillos, inicio, p_index - 1);
+        ordena_tuercas_tornillos_dyv(tuercas, tornillos, p_index + 1, fin);
     }
 }
 
@@ -181,5 +168,4 @@ int main(int argc, char* argv[]){
     for(int i = 0; i < n; i++){
         cout << tuercas[i] << " ";
     }
-
 }
