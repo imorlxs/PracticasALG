@@ -62,10 +62,14 @@ int main(int argc, char* argv[]) {
     chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
     ofstream salida;
 
-    if(argc != 3){
-        cerr << "[-] Uso: " << argv[0] << " <fichero salida> <n de elementos>" << endl;  
+    if(argc != 5 || atoi(argv[2]) <= 0 || atoi(argv[3]) < 0){
+        cerr << "[-] Uso: " << argv[0] << " <fichero salida> <n de elementos> <valor mínimo(>= 0)> <valor máximo>" << endl;  
         return -1;
     }
+
+    int n = atoi(argv[2]); 
+    int mayor = atoi(argv[4]);
+    int menor = atoi(argv[3]);
 
     salida.open(argv[1], std::ios::out | std::ios::app);
     if (!salida.is_open()) {
@@ -74,23 +78,40 @@ int main(int argc, char* argv[]) {
     }
 
     // Crear un vector con elementos repetidos
-    int arr[] = {3, 1, 2, 3, 2, 4, 5, 3};
-    int n = sizeof(arr) / sizeof(arr[0]);
 
-    cout << "Arreglo original: ";
-    for (int i = 0; i < n; ++i) {
-        cout << arr[i] << " ";
+    set<int> secuencia_base;
+
+    srand(time(0)); //Semilla para los números aleatorios
+
+    while(secuencia_base.size() < n){
+        int elemento = genera_entero_aleatorio(menor, mayor);
+        secuencia_base.insert(elemento);
     }
-    cout << endl;
 
-    // Llamar a la función para eliminar elementos repetidos
-    eliminaRepetidos(arr, n);
+    int vec[n];
 
-    cout << "Arreglo sin elementos repetidos: ";
-    for (int i = 0; i < n; ++i) {
-        cout << arr[i] << " ";
+    for (int i = 0; i < n; i++){
+        vec[i] = 0;
     }
-    cout << endl;
 
-    return 0;
+    for(const int& elem : secuencia_base){
+        int pos;
+        do{
+            pos = genera_entero_aleatorio(0, n-1);
+        }while(vec[pos] != 0);
+        vec[pos] = elem;
+    }
+
+    secuencia_base.clear();
+
+    t0 = std::chrono::high_resolution_clock::now();
+    eliminaRepetidos(vec, n);
+	tf = std::chrono::high_resolution_clock::now();
+
+	unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
+
+	salida << n << " " << tejecucion << endl;
+
+    salida.close();
+
 }

@@ -75,25 +75,28 @@ echo "[+] PRUEBA TUERCAS Y TORNILLOS FINALIZADA"
 #Eliminar elementos repetidos
 
 #output_file_er_dyv="../dat/test_er_dyv.dat"
-#output_file_er="../dat/test_er.dat"
+output_file_er="../dat/test_er.dat"
 
-#echo "" > $output_file_er
+echo "" > $output_file_er
 #echo "" > $output_file_er_dyv
 
-#g++ -o ../bin/er ../src/EliminarRepetidos.cpp
+g++ -o ../bin/er ../src/EliminarRepetidos.cpp
 #g++ -o ../bin/er_dyv ../src/EliminarRepetidosDyV.cpp
 
 #Bucle para las pruebas
-#for n in { }; do
+for n in {10..100..10}; do
 
-#    echo " [+] Ejecutando prueba <er> con ...
-#    ../bin/er
+    valor_min=0
+    valor_max=$((n / 2))
+
+    echo "[+] Ejecutando prueba <er> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/er $output_file_er $n $valor_min $valor_max
 
 #    echo "[+] Ejecutando prueba <er_dyv> ...
 #    ../bin/er_dyv
-#done
+done
 
-#echo "[+] PRUEBA ELEMENTOS REPETIDOS FINALIZADA"
+echo "[+] PRUEBA ELEMENTOS REPETIDOS FINALIZADA"
 
 #Organización del calendario de un campeonato
 
