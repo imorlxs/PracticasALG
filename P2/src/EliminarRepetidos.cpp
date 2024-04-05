@@ -66,17 +66,10 @@ int main(int argc, char* argv[]) {
         return -1;
     }
     
-<<<<<<< HEAD
-    
     int n = atoi(argv[2]); 
     int menor = atoi(argv[3]);
     int mayor = atoi(argv[4]);
     
-=======
-    int n = atoi(argv[2]); 
-    int menor = atoi(argv[3]);
-    int mayor = atoi(argv[4]);
->>>>>>> 3ac94365a797a45b8da84cec40bb62bc465abc52
     
     salida.open(argv[1], std::ios::out | std::ios::app);
     if (!salida.is_open()) {
