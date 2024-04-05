@@ -74,14 +74,14 @@ echo "[+] PRUEBA TUERCAS Y TORNILLOS FINALIZADA"
 
 #Eliminar elementos repetidos
 
-#output_file_er_dyv="../dat/test_er_dyv.dat"
+output_file_er_dyv="../dat/test_er_dyv.dat"
 output_file_er="../dat/test_er.dat"
 
 echo "" > $output_file_er
-#echo "" > $output_file_er_dyv
+echo "" > $output_file_er_dyv
 
 g++ -o ../bin/er ../src/EliminarRepetidos.cpp
-#g++ -o ../bin/er_dyv ../src/EliminarRepetidosDyV.cpp
+g++ -o ../bin/er_dyv ../src/EliminarRepetidosDyV.cpp
 
 #Bucle para las pruebas
 for n in {10..100..10}; do

@@ -26,7 +26,7 @@ void InsertionSort(int *v, int n){
     }
 }
 
-void eliminaRepetidos(int* v, int &n){
+void eliminaRepetidos(int* v, int n){
 
     // Paso 1: Ordenar el arreglo
     InsertionSort(v, n);
@@ -50,9 +50,6 @@ void eliminaRepetidos(int* v, int &n){
         v[i] = temp[i];
     }
     
-    // Actualizar n al nuevo tamaño
-    n = j;
-    
     // Liberar el arreglo temporal
     delete[] temp;
 }
@@ -70,9 +67,9 @@ int main(int argc, char* argv[]) {
     }
     
     
-    int n = atoi(argv[1]); 
-    int menor = atoi(argv[2]);
-    int mayor = atoi(argv[3]);
+    int n = atoi(argv[2]); 
+    int menor = atoi(argv[3]);
+    int mayor = atoi(argv[4]);
     
     
     salida.open(argv[1], std::ios::out | std::ios::app);
