@@ -1,9 +1,9 @@
 #include<iostream>
-#include<set>
 #include<cstdlib>
 #include<ctime>
 #include<chrono>
 #include<fstream> 
+
 using namespace std;
 
 int genera_entero_aleatorio(int menor, int mayor){
@@ -69,44 +69,26 @@ int main(int argc, char* argv[]) {
         return -1;
     }
     
-    
-    int n = atoi(argv[1]); 
-    int menor = atoi(argv[2]);
-    int mayor = atoi(argv[3]);
-    
+    int n = atoi(argv[2]); 
+    int menor = atoi(argv[3]);
+    int mayor = atoi(argv[4]);
     
     salida.open(argv[1], std::ios::out | std::ios::app);
     if (!salida.is_open()) {
-        cerr << "Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
+        cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
         return 0;
     }
     
     // Crear un vector con elementos repetidos
     
-    set<int> secuencia_base;
-    
     srand(time(0)); //Semilla para los números aleatorios
-
-    for (int i = 0; i < n; i++){
-        int elemento = genera_entero_aleatorio(menor, mayor);
-        secuencia_base.insert(elemento);
-    }
     
     int vec[n];
     
+    //De esta forma generamos el vector más fácilmente
     for (int i = 0; i < n; i++){
-        vec[i] = 0;
+        vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
-
-    for(const int& elem : secuencia_base){
-        int pos;
-        do{
-            pos = genera_entero_aleatorio(0, n-1);
-        }while(vec[pos] != 0);
-        vec[pos] = elem;
-    }
-    
-    secuencia_base.clear();
     
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidos(vec, n);
@@ -114,9 +96,10 @@ int main(int argc, char* argv[]) {
     
 	unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
     
-	salida << n << " " << tejecucion << endl;
+	salida << atoi(argv[2]) << " " << tejecucion << endl; //Como n se modifica, pongo el argumento directamente pa evitar fallos
     
     salida.close();
-    
+
+    cout << endl;
 }
 
