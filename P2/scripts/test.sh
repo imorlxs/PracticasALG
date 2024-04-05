@@ -35,7 +35,7 @@ g++ -o ../bin/tyt ../src/TuercasTornillos.cpp
 g++ -o ../bin/tyt_dyv ../src/TuercasTornillosDyV.cpp
 
 #Bucle para las pruebas
-for n in {10..100..10}; do
+for n in {10..100000..100}; do
 
     valor_min=1
     valor_max=$(($n + 50))
