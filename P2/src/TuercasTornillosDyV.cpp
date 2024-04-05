@@ -98,7 +98,7 @@ int main(int argc, char* argv[]){
 
     salida.open(argv[1], std::ios::out | std::ios::app);
         if (!salida.is_open()) {
-            cerr<<"Error: No se pudo abrir fichero para escritura "<<argv[1]<<"\n\n";
+            cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
             return 0;
         }
 
