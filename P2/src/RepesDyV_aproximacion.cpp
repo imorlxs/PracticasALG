@@ -26,39 +26,39 @@ void InsertionSort(int *v, int n){
     }
 }
 
-void combinar(int* v, int inicio, int medio, int fin) {
+void combinar(int* v, int inicio, int medio, int fin){
     int tamIzq = medio - inicio + 1;
     int tamDer = fin - medio;
     int* izq = new int[tamIzq];
     int* der = new int[tamDer];
 
     // Copiar datos a arreglos temporales
-    for (int i = 0; i < tamIzq; i++) {
+    for (int i = 0; i < tamIzq; i++){
         izq[i] = v[inicio + i];
     }
-    for (int j = 0; j < tamDer; j++) {
+    for (int j = 0; j < tamDer; j++){
         der[j] = v[medio + 1 + j];
     }
 
     int i = 0, j = 0, k = inicio;
 
     // Primer elemento siempre se añade
-    if (tamIzq > 0) {
+    if (tamIzq > 0){
         v[k++] = izq[i++];
     }
 
     // Fusionar arreglos izq y der, eliminando duplicados
-    while (i < tamIzq && j < tamDer) {
+    while (i < tamIzq && j < tamDer){
         if (izq[i] < der[j]) {
-            if (v[k-1] != izq[i]) { // Verificar duplicados con el último elemento añadido
+            if (v[k-1] != izq[i]){ // Verificar duplicados con el último elemento añadido
                 v[k++] = izq[i];
             }
             i++;
-        } else {
-            if (v[k-1] != der[j]) { // Verificar duplicados con el último elemento añadido
+        }else{
+            if (v[k-1] != der[j]){ // Verificar duplicados con el último elemento añadido
                 v[k++] = der[j];
             }
-            if (izq[i] == der[j]) {
+            if (izq[i] == der[j]){
                 i++; // Si los elementos son iguales, avanzar izq para evitar duplicado
             }
             j++;
@@ -66,24 +66,24 @@ void combinar(int* v, int inicio, int medio, int fin) {
     }
 
     // Copiar los elementos restantes de izq[], si hay alguno, verificando duplicados
-    while (i < tamIzq) {
-        if (v[k-1] != izq[i]) {
+    while (i < tamIzq){
+        if (v[k-1] != izq[i]){
             v[k++] = izq[i];
         }
         i++;
     }
 
     // Copiar los elementos restantes de der[], si hay alguno, verificando duplicados
-    while (j < tamDer) {
-        if (v[k-1] != der[j]) {
+    while (j < tamDer){
+        if (v[k-1] != der[j]){
             v[k++] = der[j];
         }
         j++;
     }
 
     // Ajustar el tamaño final del arreglo, si es necesario
-    if (fin >= k) {
-        for (int idx = k; idx <= fin; idx++) {
+    if (fin >= k){
+        for (int idx = k; idx <= fin; idx++){
             v[idx] = 0; // Puedes elegir otro valor o mecanismo para marcar el final, dependiendo de tu caso de uso
         }
     }
@@ -91,8 +91,6 @@ void combinar(int* v, int inicio, int medio, int fin) {
     delete[] izq;
     delete[] der;
 }
-
-
 
 void eliminaRepetidosDyV(int *v, int inicio, int fin){
     if (inicio >= fin)
@@ -108,8 +106,7 @@ void eliminaRepetidosDyV(int *v, int inicio, int fin){
     combinar(v, inicio, medio, fin);
 }
 
-
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]){
     
     chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
     ofstream salida;
@@ -126,7 +123,7 @@ int main(int argc, char* argv[]) {
     
     
     salida.open(argv[1], std::ios::out | std::ios::app);
-    if (!salida.is_open()) {
+    if (!salida.is_open()){
         cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
         return 0;
     }
@@ -142,10 +139,6 @@ int main(int argc, char* argv[]) {
         vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
 
-    for (int i = 0; i < n; i++){
-        cout << " " << vec[i];
-    }    
-
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidosDyV(vec, 0, n-1);
 	tf = std::chrono::high_resolution_clock::now();
@@ -157,9 +150,5 @@ int main(int argc, char* argv[]) {
     salida.close();
 
     cout << endl;
-
-    for (int i = 0; i < n; i++){
-        cout << " " << vec[i];
-    }  
 }
 

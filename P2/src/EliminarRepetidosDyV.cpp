@@ -109,12 +109,12 @@ void eliminaRepetidosDyV(int *v, int inicio, int fin, int &n){
     delete[] temp;
     
 }   
-/*
+
+
 int main(int argc, char* argv[]) {
     
     chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
     ofstream salida;
-
     
     if(argc != 5 || atoi(argv[2]) <= 0 || atoi(argv[3]) < 0){
         cerr << "[-] Uso: " << argv[0] << " <fichero salida> <n de elementos> <valor mínimo(>= 0)> <valor máximo>" << endl;  
@@ -143,6 +143,11 @@ int main(int argc, char* argv[]) {
         vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
     
+    cout << "Vector original: ";
+    for (int i = 0; i < n; ++i) {
+        cout << vec[i] << " ";
+    }
+
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidosDyV(vec, 0, n-1, n);
 	tf = std::chrono::high_resolution_clock::now();
@@ -154,10 +159,15 @@ int main(int argc, char* argv[]) {
     salida.close();
 
     cout << endl;
-}*/
+
+    cout << "Vector sin elementos repetidos: ";
+    for (int i = 0; i < n; ++i) {
+        cout << vec[i] << " ";
+    }
+}
 
 
-int main() {
+/*(int main() {
 
     int v[] = {3, 6, 5, 5, 3, 8, 9, 8, 3, 0, 1, 0, 2, 5, 6, 7};
 
@@ -180,4 +190,4 @@ int main() {
     cout << endl;
     
     return 0;
-}
+}*/
