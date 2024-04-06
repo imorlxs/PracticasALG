@@ -67,7 +67,7 @@ for n in {10..100..10}; do
     ../bin/te $output_file_te $n $valor_unico
 
     echo "[+] Ejecutando prueba <te_dyv> con n = $n, valor = $valor_unico"
-    ../bin/te_dyv $output_file_te_dyv
+    ../bin/te_dyv $output_file_te_dyv $n $valor_unico
 done
 
 echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
