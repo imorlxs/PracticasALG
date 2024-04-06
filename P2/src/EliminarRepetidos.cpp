@@ -26,34 +26,29 @@ void InsertionSort(int *v, int n){
     }
 }
 
-void eliminaRepetidos(int* v, int n){
-
+void eliminaRepetidos(int* v, int* n){
     // Paso 1: Ordenar el arreglo
-    InsertionSort(v, n);
+    InsertionSort(v, *n);
     
     // Paso 2: Crear un arreglo temporal para almacenar los elementos únicos
-    int* temp = new int[n];
+    int* temp = new int[*n];
     
-    // Paso 3: Copiar los elementos únicos al arreglo temporal
-    int j = 0; // Índice para el arreglo temporal
-    for (int i = 0; i < n - 1; i++) {
-        // Si el elemento actual es diferente del siguiente, lo copiamos a temp
+    int j = 0;
+    for (int i = 0; i < *n - 1; i++) {
         if (v[i] != v[i + 1]) {
             temp[j++] = v[i];
         }
     }
-    // Asegurar de copiar el último elemento
-    temp[j++] = v[n-1];
+    temp[j++] = v[*n-1];
     
-    // Paso 4: Copiar de vuelta al arreglo original los elementos de temp
     for (int i = 0; i < j; i++) {
         v[i] = temp[i];
     }
     
-    // Liberar el arreglo temporal
+    *n = j; // Actualizar el tamaño del arreglo original
+    
     delete[] temp;
 }
-
 
 int main(int argc, char* argv[]) {
     
@@ -87,9 +82,9 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < n; i++){
         vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
-    
+
     t0 = std::chrono::high_resolution_clock::now();
-    eliminaRepetidos(vec, n);
+    eliminaRepetidos(vec, &n);
 	tf = std::chrono::high_resolution_clock::now();
     
 	unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
@@ -97,6 +92,4 @@ int main(int argc, char* argv[]) {
 	salida << atoi(argv[2]) << " " << tejecucion << endl; //Como n se modifica, pongo el argumento directamente pa evitar fallos
     
     salida.close();
-
-    cout << endl;
 }
