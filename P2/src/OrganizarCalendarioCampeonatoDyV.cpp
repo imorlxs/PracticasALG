@@ -31,33 +31,27 @@ void generarCalendario(vector<vector<int>> &calendario, int primerEq, int ultimo
 void completarCalendario(vector<vector<int>> &calendario, int primerPartido, int ultimoPartido, int diaInf,
                          int diaFin, int inicioCampeonato);
 void imprimirCalendario(const vector<vector<int>> &calendario);
-bool esPotenciaDeDosValida(int n);
 
 /*************************/
 
 int main(int argc, char **argv)
 {
 
-    int n; // nº de partidos
+    long n; // nº de partidos
     chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
     ofstream salida;
 
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
 
-    if (argc != 2)
+    if (argc != 3)
     {
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
-        cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <nº de equipos>" << endl;
+        cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <archivo de salida> <nº de equipos>" << endl;
         exit(-1);
-    }
-    else if (!esPotenciaDeDosValida(atoi(argv[2])))
-    {
-        cerr << "Error, el número de participantes debe ser una potencia de dos mayor o igual a 2" << endl;
-        exit(-2);
     }
     else
     {
-        int n = atoi(argv[2]); // Número de equipos
+        n = atoi(argv[2]);
 
         salida.open(argv[1], std::ios::out | std::ios::app);
         if (!salida.is_open()){
@@ -65,7 +59,7 @@ int main(int argc, char **argv)
             return 0;
         }
 
-        cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
+        //cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
         
         vector<vector<int>> calendario(n + 1, vector<int>(n, 0)); // Inicializar el calendario con ceros
         
@@ -81,8 +75,9 @@ int main(int argc, char **argv)
 
         salida.close();
 
-        cout << "Calendario del campeonato:\n\n";
-        imprimirCalendario(calendario);
+        //cout << "Calendario del campeonato:\n\n";
+        //imprimirCalendario(calendario);
+
     }
 
     return 0;
@@ -134,11 +129,6 @@ void completarCalendario(vector<vector<int>>& calendario, int primerEq, int ulti
     }
 }
 
-// Comprobar si un número es potencia de 2 a partir de 2^1 = 2 en adelante
-bool esPotenciaDeDosValida(int n)
-{
-    return n > 1 && (n & (n - 1)) == 0;
-}
 
 // Función para imprimir el calendario del torneo
 void imprimirCalendario(const vector<vector<int>> &calendario)
