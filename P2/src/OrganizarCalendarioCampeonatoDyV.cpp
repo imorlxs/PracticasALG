@@ -20,7 +20,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 /* CABECERAS DE FUNCIONES*/
@@ -37,6 +39,8 @@ int main(int argc, char **argv)
 {
 
     int n; // nº de partidos
+    chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
+    ofstream salida;
 
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
 
@@ -46,19 +50,37 @@ int main(int argc, char **argv)
         cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <nº de equipos>" << endl;
         exit(-1);
     }
-    else if (!esPotenciaDeDosValida(atoi(argv[1])))
+    else if (!esPotenciaDeDosValida(atoi(argv[2])))
     {
         cerr << "Error, el número de participantes debe ser una potencia de dos mayor o igual a 2" << endl;
         exit(-2);
     }
     else
     {
-        int n = atoi(argv[1]); // Número de equipos
+        int n = atoi(argv[2]); // Número de equipos
 
+        salida.open(argv[1], std::ios::out | std::ios::app);
+        if (!salida.is_open()){
+            cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[2] << endl;
+            return 0;
+        }
+
+        cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
+        
         vector<vector<int>> calendario(n + 1, vector<int>(n, 0)); // Inicializar el calendario con ceros
+        
+        t0 = std::chrono::high_resolution_clock::now();
 
         // Generar el calendario
         generarCalendario(calendario, 1, n);
+
+        tf = std::chrono::high_resolution_clock::now();
+
+        unsigned long t_ejecucion = std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
+        salida << atoi(argv[2]) << " " << t_ejecucion << endl;
+
+        salida.close();
+
         cout << "Calendario del campeonato:\n\n";
         imprimirCalendario(calendario);
     }
