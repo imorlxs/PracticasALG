@@ -54,11 +54,11 @@ vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
         vector<int> equiposA, equiposB;
         vector<vector<pair<int,int>>> emparejamientosA, emparejamientosB;
 
-        for (int i = 0; i <= n/2; i++){
-            equiposA.push_back(i);
+        for (int i = 0; i < n/2; i++){
+            equiposA.push_back(equipos[i]);
         }
-        for (int i = n/2; i <= n; i++){
-            equiposB.push_back(i);
+        for (int i = n/2; i < n; i++){
+            equiposB.push_back(equipos[i]);
         }
 
         emparejamientosA = generarEmparejamientos(equiposA);
@@ -68,9 +68,15 @@ vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
             for (const auto& emparejamientoB : emparejamientosB){
                 vector<pair<int,int>> emparejamientoTotal;
 
-                // uso de std::merge(), con eficiencia O(n)
-                merge(emparejamientoA.begin(), emparejamientoA.end(), emparejamientoB.begin(), emparejamientoB.end(),
-                      back_inserter(emparejamientoTotal));
+                // Agregamos los emparejamientos de equiposA
+                for (const auto& partidoA : emparejamientoA) {
+                    emparejamientoTotal.push_back(partidoA);
+                }
+
+                // Agregamos los emparejamientos de equiposB
+                for (const auto& partidoB : emparejamientoB) {
+                    emparejamientoTotal.push_back(partidoB);
+                }
                 
                 // Agregamos el emparejamiento combinado a EmparejamientosTotales
                 emparejamientosTotales.push_back(emparejamientoTotal);
@@ -108,7 +114,7 @@ int main(int argc, char **argv){
     {
         n = atoi(argv[1]);
         vector<int> equipos(n);
-        for (int i = 1; i <= n; i++){
+        for (int i = 0; i < n; i++){
             equipos[i] = i;
         }
 
