@@ -92,8 +92,8 @@ for n in {10..100..10}; do
     echo "[+] Ejecutando prueba <er> con n = $n, min = $valor_min, max = $valor_max"
     ../bin/er $output_file_er $n $valor_min $valor_max
 
-#    echo "[+] Ejecutando prueba <er_dyv> ...
-#    ../bin/er_dyv
+    echo "[+] Ejecutando prueba <er_dyv> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/er_dyv $output_file_er_dyv $n $valor_min $valor_max
 done
 
 echo "[+] PRUEBA ELEMENTOS REPETIDOS FINALIZADA"
