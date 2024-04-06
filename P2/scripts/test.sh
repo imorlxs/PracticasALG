@@ -51,26 +51,26 @@ echo "[+] PRUEBA TUERCAS Y TORNILLOS FINALIZADA"
 
 #Producto de tres elementos
 
-#output_file_te_dyv="../dat/test_te_dyv.dat"
-#output_file_te="../dat/test_te.dat"
+output_file_te_dyv="../dat/test_te_dyv.dat"
+output_file_te="../dat/test_te.dat"
 
-#echo "" > $output_file_te
-#echo "" > $output_file_te_dyv
+echo "" > $output_file_te
+echo "" > $output_file_te_dyv
 
-#g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
-#g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
+g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
+g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
 
 #Bucle para las pruebas
-#for n in { }; do
+for n in { }; do
 
-#    echo " [+] Ejecutando prueba <te> con ...
-#    ../bin/te
+    echo " [+] Ejecutando prueba <te> con n = $n, valor = $valor_unico"
+    ../bin/te $output_file_te $n $valor_unico
 
-#    echo "[+] Ejecutando prueba <te_dyv> ...
-#    ../bin/te_dyv
-#done
+    echo "[+] Ejecutando prueba <te_dyv> con n = $n, valor = $valor_unico"
+    ../bin/te_dyv $output_file_te_dyv
+done
 
-#echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
+echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
 
 #Eliminar elementos repetidos
 
@@ -88,7 +88,6 @@ for n in {10..100..10}; do
 
     valor_min=0
     valor_max=$((n / 2))
-
     echo "[+] Ejecutando prueba <er> con n = $n, min = $valor_min, max = $valor_max"
     ../bin/er $output_file_er $n $valor_min $valor_max
 
