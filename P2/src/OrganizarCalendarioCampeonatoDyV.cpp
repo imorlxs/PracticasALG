@@ -38,71 +38,35 @@ void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
     std::cout << "\n\n";
 }
 
-void rotarEquipos(vector<int>& equipos){
-    
-    // Guardamos "bajo llave" el primer equipo, que no se moverá
-    int equipoFijo = equipos[0];
-    
-    // Guardamos el segundo equipo para moverlo al final tras la rotación de todos los demás
-    int equipoMoverFinal = equipos[1];
+vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
 
-    // Rotación de los equipos
-    for (int i = 1; i < equipos.size() - 1; i++)
-        equipos[i] = equipos[i+1];
-    
-    //Colocamos el segundo equipo al final del todo
-    equipos[equipos.size() - 1] = equipoMoverFinal;
-    
-    // Restauramos el equipo fijo
-    equipos[0] = equipoFijo;
-}
-
-
-vector<vector<pair<int,int>>> crearsubCalendario(const vector<int>& equipos){
+    vector<vector<pair<int,int>>> emparejamientosTotales;
     int n = equipos.size();
-    if (n==1){
-        return {};
-    } else if  (n == 2){
-        
+
+    // Caso base: sólo hay 2 equipos
+    if (n == 2){
+        vector<pair<int,int>> emparejamientos;
+        emparejamientos.push_back(make_pair(equipos[0], equipos[1]));
+        emparejamientosTotales.push_back(emparejamientos);
+        return emparejamientosTotales;
     }
     else {
-        int mitad = n/2;
-        vector<int> equiposIzq(equipos.begin(), equipos.begin() + mitad);
-        vector<int> equiposDer(equipos.begin() + mitad, equipos.end());
+        // Dividimos los equipos en dos grupos de igual tamaño, equiposA y equiposB
+        vector<int> equiposA, equiposB;
+        vector<vector<pair<int,int>>> emparejamientosA, emparejamientosB;
 
-        // Crear subcalendarios para cada mitad
-        vector<vector<pair<int,int>>> subCalendarioIzq = crearsubCalendario(equiposIzq);
-        vector<vector<pair<int,int>>> subCalendarioDer = crearsubCalendario(equiposDer);
-
-        vector<vector<pair<int,int>>> calendario;
-        for (int i = 0; i < min(subCalendarioIzq.size(), subCalendarioDer.size()); i++){
-            for (int j = 0; j < subCalendarioIzq[i].size(); j++){
-                calendario[i].push_back(make_pair(subCalendarioIzq[i][j].first, subCalendarioDer[i][j].second));
-            }
+        for (int i = 0; i <= n/2; i++){
+            equiposA.push_back(i);
+        }
+        for (int i = n/2; i <= n; i++){
+            equiposB.push_back(i);
         }
 
-        for (int i = min(subCalendarioIzq.size(), subCalendarioDer.size()); i < subCalendarioIzq.size(); i++){
-            calendario.push_back(subCalendarioIzq[i]);
-        }
+        emparejamientosA = generarEmparejamientos(equiposA);
+        emparejamientosB = generarEmparejamientos(equiposB);
 
-        for (int i = min(subCalendarioIzq.size(), subCalendarioDer.size()); i < subCalendarioDer.size(); i++){
-            calendario.push_back(subCalendarioDer[i]);
-        }
-
-        return calendario;
     }
 
-}
-
-vector<vector<pair<int,int>>> construirCalendario(int n){
-    vector<int> equipos(n);
-    for (int i = 0; i < n; i++){
-        equipos[i] = i+1;
-    }
-
-    vector<vector<pair<int,int>>> calendario = crearsubCalendario(equipos);
-
-    return calendario;
 }
 
 // Comprobar si un número es potencia de 2
@@ -132,15 +96,23 @@ int main(int argc, char **argv){
         n = atoi(argv[1]);
         vector<int> equipos(n);
         for (int i = 1; i <= n; i++){
-            equipos[i] = i + 1;
+            equipos[i] = i;
         }
 
-        std::cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
+        cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
 
         // Construcción e impresión por pantalla del calendario
-        vector<vector<pair<int,int>>> calendario = construirCalendario(n);
-        std::cout << "Calendario del torneo:" << endl;
-        imprimirCalendario(calendario);
+        vector<vector<pair<int,int>>> emparejamientos = generarEmparejamientos(equipos);
+        cout << "Calendario del torneo:" << endl;
+        int dia = 1;
+        for (const auto& partidos : emparejamientos){
+            cout << "Jornada " << dia << ": " << endl;
+            for (const auto& partido : partidos){
+                cout << partido.first + 1 << " vs " << partido.second + 1 << endl;
+            }
+        }
+
+    cout << "\n\n";
         
     }
 
