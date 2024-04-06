@@ -62,7 +62,8 @@ g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
 
 #Bucle para las pruebas
 for n in {10..100..10}; do
-
+	
+    valor_unico = n
     echo " [+] Ejecutando prueba <te> con n = $n, valor = $valor_unico"
     ../bin/te $output_file_te $n $valor_unico
 
