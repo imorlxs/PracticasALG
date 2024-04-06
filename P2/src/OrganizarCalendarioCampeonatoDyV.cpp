@@ -3,11 +3,11 @@
  * Grupo: 2ºD, subgrupo de prácticas D1
  * @file OrganizarCalendarioCampeonatoDyV.cpp
  * ¿Usa Divide y Vencerás? -->  SÍ
-*****************************************************/
+ *****************************************************/
 
 /**
  * ENUNCIADO:
- * 
+ *
  * Se organiza un torneo con n participantes. Cada participante tiene que competir exactamente una vez con
  * todos los posibles oponentes. Además, cada participante tiene que jugar exactamente un partido cada día. Por
  * concreción, y sin perdida de generalidad, puede suponerse que las competiciones se celebran en días
@@ -15,88 +15,29 @@
  * es potencia de dos, lo que nos simplificará el problema (no es necesario que haya jornadas de descanso). Por
  * lo tanto n = 2^k participantes, con k entero positivo. Se pide construir un calendario que permita que el torneo
  * concluya en n-1 días
-*/
+ */
 
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
-#include <cmath>
-#include <bits/stdc++.h>
 using namespace std;
 
-// Función para imprimir el calendario del torneo
-void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
-    int dia = 1;
-    for (const auto& partidos : calendario){
-        std::cout << "Jornada " << dia++ << ": " << endl;
-        for (const auto& partido : partidos){
-            std::cout << partido.first << " vs " << partido.second << endl;
-        }
-    }
+/* CABECERAS DE FUNCIONES*/
 
-    std::cout << "\n\n";
-}
+void generarCalendario(vector<vector<int>> &calendario, int primerEq, int ultimoEq);
+void completarCalendario(vector<vector<int>> &calendario, int primerPartido, int ultimoPartido, int diaInf,
+                         int diaFin, int inicioCampeonato);
+void imprimirCalendario(const vector<vector<int>> &calendario);
+bool esPotenciaDeDosValida(int n);
 
-vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
+/*************************/
 
-    vector<vector<pair<int,int>>> emparejamientosTotales;
-    int n = equipos.size();
+int main(int argc, char **argv)
+{
 
-    // Caso base: sólo hay 2 equipos
-    if (n == 2){
-        vector<pair<int,int>> emparejamientos;
-        emparejamientos.push_back(make_pair(equipos[0], equipos[1]));
-        emparejamientosTotales.push_back(emparejamientos);
-    }
-    else {
-        // Dividimos los equipos en dos grupos de igual tamaño, equiposA y equiposB
-        vector<int> equiposA, equiposB;
-        vector<vector<pair<int,int>>> emparejamientosA, emparejamientosB;
+    int n; // nº de partidos
 
-        for (int i = 0; i < n/2; i++){
-            equiposA.push_back(equipos[i]);
-        }
-        for (int i = n/2; i < n; i++){
-            equiposB.push_back(equipos[i]);
-        }
-
-        emparejamientosA = generarEmparejamientos(equiposA);
-        emparejamientosB = generarEmparejamientos(equiposB);
-
-        for (const auto& emparejamientoA : emparejamientosA){
-            for (const auto& emparejamientoB : emparejamientosB){
-                vector<pair<int,int>> emparejamientoTotal;
-
-                // Agregamos los emparejamientos de equiposA
-                for (const auto& partidoA : emparejamientoA) {
-                    emparejamientoTotal.push_back(partidoA);
-                }
-
-                // Agregamos los emparejamientos de equiposB
-                for (const auto& partidoB : emparejamientoB) {
-                    emparejamientoTotal.push_back(partidoB);
-                }
-                
-                // Agregamos el emparejamiento combinado a EmparejamientosTotales
-                emparejamientosTotales.push_back(emparejamientoTotal);
-            }
-        }
-
-    }
-
-    return emparejamientosTotales;
-}
-
-// Comprobar si un número es potencia de 2 a partir de 2^1 = 2 en adelante
-bool esPotenciaDeDosValida(int n){
-    return n > 1 && (n & (n-1)) == 0;
-}
-
-int main(int argc, char **argv){
-
-    int n;  //nº de partidos
-    
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
 
     if (argc != 2)
@@ -104,36 +45,92 @@ int main(int argc, char **argv){
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
         cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <nº de equipos>" << endl;
         exit(-1);
-    } 
-    else if ( !esPotenciaDeDosValida( atoi(argv[1]) ) )
+    }
+    else if (!esPotenciaDeDosValida(atoi(argv[1])))
     {
-        cerr << "Error, el número de participantes debe ser una potencia de dos" << endl;
+        cerr << "Error, el número de participantes debe ser una potencia de dos mayor o igual a 2" << endl;
         exit(-2);
     }
     else
     {
-        n = atoi(argv[1]);
-        vector<int> equipos(n);
-        for (int i = 0; i < n; i++){
-            equipos[i] = i;
-        }
+        int n = atoi(argv[1]); // Número de equipos
 
-        cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
+        vector<vector<int>> calendario(n + 1, vector<int>(n, 0)); // Inicializar el calendario con ceros
 
-        // Construcción e impresión por pantalla del calendario
-        vector<vector<pair<int,int>>> emparejamientos = generarEmparejamientos(equipos);
-        cout << "Calendario del torneo:" << endl;
-        int dia = 1;
-        for (const auto& partidos : emparejamientos){
-            cout << "Jornada " << dia << ": " << endl;
-            for (const auto& partido : partidos){
-                cout << partido.first + 1 << " vs " << partido.second + 1 << endl;
-            }
-        }
-
-    cout << "\n\n";
-        
+        // Generar el calendario
+        generarCalendario(calendario, 1, n);
+        cout << "Calendario del campeonato:\n\n";
+        imprimirCalendario(calendario);
     }
 
     return 0;
+}
+
+void generarCalendario(vector<vector<int>> &calendario, int primero, int ultimo)
+{
+    int mitad;
+
+    // Caso base --> solamente tenemos dos equipos en la liga para emparejar entre sí
+    // Asignamos directamente los emparejamientos a fuerza bruta y se devuelve una matriz de 1x2
+    if (ultimo - primero == 1)
+    {
+        calendario[primero][1] = ultimo;
+        calendario[ultimo][1] = primero;
+    }
+    else
+    {
+        // Para aplicar técnicas de Divide y Vencerás, dividiremos el rango en dos cada vez, y generar el
+        // calendario para cada mitad sucesivamente
+        mitad = (primero + ultimo) / 2;
+
+        generarCalendario(calendario, primero, mitad);
+        generarCalendario(calendario, mitad + 1, ultimo);
+
+        // Completamos el calendario para cada mitad
+        completarCalendario(calendario, primero, mitad, mitad - primero + 1, ultimo - primero, mitad + 1);
+        completarCalendario(calendario, mitad + 1, ultimo, mitad - primero + 1, ultimo - primero, primero);
+    }
+}
+
+void completarCalendario(vector<vector<int>>& calendario, int primerEq, int ultimoEq, int diaIni,
+                         int diaFin, int inicio)
+{
+    // Asignamos los enfrentamientos consecutivos del primer participante
+    for (int dia = diaIni; dia <= diaFin; dia++)
+    {
+        calendario[primerEq][dia] = inicio + dia - diaIni;
+    }
+
+    // Asignar enfrentamientos al resto de los participantes
+    for (int i = primerEq + 1; i <= ultimoEq; i++)
+    {
+        calendario[i][diaIni] = calendario[i - 1][diaFin];
+        for (int j = diaIni + 1; j <= diaFin; j++)
+        {
+            calendario[i][j] = calendario[i - 1][j - 1];
+        }
+    }
+}
+
+// Comprobar si un número es potencia de 2 a partir de 2^1 = 2 en adelante
+bool esPotenciaDeDosValida(int n)
+{
+    return n > 1 && (n & (n - 1)) == 0;
+}
+
+// Función para imprimir el calendario del torneo
+void imprimirCalendario(const vector<vector<int>> &calendario)
+{
+    int n = calendario.size() - 1;
+
+    for (int i = 1; i <= n; i++){
+        cout << "Encuentros del equipo " << i << ":" << endl;
+        for (int j = 1; j < n; j++){
+            cout << "Día " << j << ": " << i << " vs " << calendario[i][j] << endl;
+        }
+        cout << endl;
+    }
+
+    cout << endl;
+
 }

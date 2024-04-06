@@ -30,7 +30,7 @@ using namespace std;
 void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
     int dia = 1;
     for (const auto& partidos : calendario){
-        cout << "Jornada " << dia++ << ": " << endl;
+        cout << "Jornada " << dia << ": " << endl;
         for (const auto& partido : partidos){
             cout << partido.first << " vs " << partido.second << endl;
         }
