@@ -6,10 +6,14 @@
 
 using namespace std;
 
+// Función que genera un número aleatorio entre dos números
+
 int genera_entero_aleatorio(int menor, int mayor){
 
     return (rand() % (mayor - menor + 1)) + menor;   
 }
+
+// Función para eliminar los elementos repetidos de un vector
 
 void InsertionSort(int *v, int n){
     for (int i = 1; i < n; ++i){ 
@@ -25,6 +29,8 @@ void InsertionSort(int *v, int n){
        *(v + (j + 1)) = value;
     }
 }
+
+// Función que combina los vectores en los que se divide el original
 
 void combinar(int *v, int inicio, int medio, int fin){
 
@@ -74,40 +80,47 @@ void combinar(int *v, int inicio, int medio, int fin){
 
 void eliminaRepetidosDyV(int *v, int inicio, int fin, int &n){
 
+    // Caso base en el que si la posición de inicio es mayor que la posición del final
     if (inicio >= fin) return;
 
+    // Calcula el punto en el cual se divide el vector en 2 mitades
     int medio = inicio + (fin - inicio) / 2;
 
+    // Se llama a la función recursivamente para que elimine los repetidos en ambas mitades
     eliminaRepetidosDyV(v, inicio, medio, n);
     eliminaRepetidosDyV(v, medio+1, fin, n);
 
+    // Combina las dos mitades
     combinar(v, inicio, medio, fin);
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Aquí se contempla el caso en el que a la hora de juntar ambos vectores, pueda darse el caso
+    // de que justo donde se divide sea un elemento que se repite en ambas mitades, por tanto 
+    // eliminamos los elementos repetidos del vector combinados tal como se hizo en el método sin
+    // usar divide y vencerás
+    //
+    //////////////////////////////////////////////////////////////////////////////////////////////////
     
-    // Paso 2: Crear un arreglo temporal para almacenar los elementos únicos
     int* temp = new int[n];
     
-    // Paso 3: Copiar los elementos únicos al arreglo temporal
-    int j = 0; // Índice para el arreglo temporal
-    //temp[j++] = v[0];
+    int j = 0; 
+    
     for (int i = 0; i < n-1; i++) {
-        // Si el elemento actual es diferente del siguiente, lo copiamos a temp
         if (v[i] != v[i + 1]) {
             temp[j++] = v[i];
         }
     }
-    // Asegurar de copiar el último elemento
+    
     temp[j++] = v[n-1];
     
-    // Paso 4: Copiar de vuelta al arreglo original los elementos de temp
     for (int i = 0; i < j; i++) {
         v[i] = temp[i];
     }
     
     n = j;
-    // Liberar el arreglo temporal
-    delete[] temp;
     
+    delete[] temp;
 }   
 
 int main(int argc, char* argv[]) {
@@ -130,8 +143,6 @@ int main(int argc, char* argv[]) {
         cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[1] << "\n\n";
         return 0;
     }
-    
-    // Crear un vector con elementos repetidos
     
     srand(time(0)); //Semilla para los números aleatorios
     
@@ -165,28 +176,3 @@ int main(int argc, char* argv[]) {
     }
 }
 
-
-/*(int main() {
-
-    int v[] = {3, 6, 5, 5, 3, 8, 9, 8, 3, 0, 1, 0, 2, 5, 6, 7};
-
-    int n = sizeof(v) / sizeof(v[0]);
-
-    cout << "Vector original: ";
-    for (int i = 0; i < n; ++i) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-
-    InsertionSort(v,n);
-
-    eliminaRepetidosDyV(v, 0,n-1, n);
-
-    cout << "Vector sin elementos repetidos: ";
-    for (int i = 0; i < n; ++i) {
-        cout << v[i] << " ";
-    }
-    cout << endl;
-    
-    return 0;
-}*/

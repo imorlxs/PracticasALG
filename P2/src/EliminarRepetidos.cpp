@@ -6,10 +6,14 @@
 
 using namespace std;
 
+// Función que genera un número aleatorio entre dos números
+
 int genera_entero_aleatorio(int menor, int mayor){
 
     return (rand() % (mayor - menor + 1)) + menor;   
 }
+
+// Función de ordenamiento (copiada de la P1)
 
 void InsertionSort(int *v, int n){
     for (int i = 1; i < n; ++i){ 
@@ -26,28 +30,35 @@ void InsertionSort(int *v, int n){
     }
 }
 
+// Función para eliminar los elementos repetidos de un vector
+
 void eliminaRepetidos(int* v, int* n){
-    // Paso 1: Ordenar el arreglo
+
+    // Paso 1: Ordenar el vector
     InsertionSort(v, *n);
     
-    // Paso 2: Crear un arreglo temporal para almacenar los elementos únicos
-    int* temp = new int[*n];
-    
-    int j = 0;
+    // Paso 2: Crear un vector temporal para almacenar los elementos que no estén repetidos
+    int* tmp = new int[*n];
+
+    // Bucle que mete en el vector temporal los valores que no están repetidos en el vector v
+    int j = 0;      // Índice del vector temporal
     for (int i = 0; i < *n - 1; i++) {
         if (v[i] != v[i + 1]) {
-            temp[j++] = v[i];
+            tmp[j++] = v[i];
         }
     }
-    temp[j++] = v[*n-1];
+
+    // Nos aseguramos de meter el último elemento
+    tmp[j++] = v[*n-1];
     
+    // Pasamos los valores del vector temporal al vector original
     for (int i = 0; i < j; i++) {
-        v[i] = temp[i];
+        v[i] = tmp[i];
     }
     
-    *n = j; // Actualizar el tamaño del arreglo original
+    *n = j; // Actualizar el tamaño del vector original
     
-    delete[] temp;
+    delete[] tmp;   // Borramos la memoria del vector temporal que ya no utilizamos
 }
 
 int main(int argc, char* argv[]) {
@@ -72,15 +83,14 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     
-    // Crear un vector con elementos repetidos
-    
     srand(time(0)); //Semilla para los números aleatorios
     
     int vec[n];
     
-    //De esta forma generamos el vector más fácilmente
+    //Rellena el vector de números aleatorios
+
     for (int i = 0; i < n; i++){
-        vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
+        vec[i] = genera_entero_aleatorio(menor, mayor-1); 
     }
 
     t0 = std::chrono::high_resolution_clock::now();
