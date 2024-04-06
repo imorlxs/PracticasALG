@@ -48,7 +48,6 @@ vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
         vector<pair<int,int>> emparejamientos;
         emparejamientos.push_back(make_pair(equipos[0], equipos[1]));
         emparejamientosTotales.push_back(emparejamientos);
-        return emparejamientosTotales;
     }
     else {
         // Dividimos los equipos en dos grupos de igual tamaño, equiposA y equiposB
@@ -65,13 +64,27 @@ vector<vector<pair<int,int>>> generarEmparejamientos(vector<int> equipos){
         emparejamientosA = generarEmparejamientos(equiposA);
         emparejamientosB = generarEmparejamientos(equiposB);
 
+        for (const auto& emparejamientoA : emparejamientosA){
+            for (const auto& emparejamientoB : emparejamientosB){
+                vector<pair<int,int>> emparejamientoTotal;
+
+                // uso de std::merge(), con eficiencia O(n)
+                merge(emparejamientoA.begin(), emparejamientoA.end(), emparejamientoB.begin(), emparejamientoB.end(),
+                      back_inserter(emparejamientoTotal));
+                
+                // Agregamos el emparejamiento combinado a EmparejamientosTotales
+                emparejamientosTotales.push_back(emparejamientoTotal);
+            }
+        }
+
     }
 
+    return emparejamientosTotales;
 }
 
-// Comprobar si un número es potencia de 2
-bool esPotenciaDeDos(int n){
-    return n > 0 && (n & (n-1)) == 0;
+// Comprobar si un número es potencia de 2 a partir de 2^1 = 2 en adelante
+bool esPotenciaDeDosValida(int n){
+    return n > 1 && (n & (n-1)) == 0;
 }
 
 int main(int argc, char **argv){
@@ -86,7 +99,7 @@ int main(int argc, char **argv){
         cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <nº de equipos>" << endl;
         exit(-1);
     } 
-    else if ( !esPotenciaDeDos( atoi(argv[1]) ) )
+    else if ( !esPotenciaDeDosValida( atoi(argv[1]) ) )
     {
         cerr << "Error, el número de participantes debe ser una potencia de dos" << endl;
         exit(-2);
