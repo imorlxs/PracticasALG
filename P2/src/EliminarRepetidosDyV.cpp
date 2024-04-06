@@ -153,11 +153,6 @@ int main(int argc, char* argv[]) {
         vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
     
-    cout << "Vector original: ";
-    for (int i = 0; i < n; ++i) {
-        cout << vec[i] << " ";
-    }
-
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidosDyV(vec, 0, n-1, n);
 	tf = std::chrono::high_resolution_clock::now();
@@ -170,9 +165,5 @@ int main(int argc, char* argv[]) {
 
     cout << endl;
 
-    cout << "Vector sin elementos repetidos: ";
-    for (int i = 0; i < n; ++i) {
-        cout << vec[i] << " ";
-    }
 }
 
