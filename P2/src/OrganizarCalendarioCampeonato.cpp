@@ -102,10 +102,10 @@ int main(int argc, char **argv)
     
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
 
-    if (argc != 2)
+    if (argc != 3)
     {
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
-        cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <nº de equipos>" << endl;
+        cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <archivo de salida> <nº de equipos>" << endl;
         exit(-1);
     } 
     else if ( !esPotenciaDeDos( atoi(argv[2]) ) )
@@ -123,7 +123,7 @@ int main(int argc, char **argv)
             return 0;
         }
 
-        cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
+        //cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
 
         t0 = std::chrono::high_resolution_clock::now();
 
@@ -137,8 +137,8 @@ int main(int argc, char **argv)
 
         salida.close();
 
-        cout << "Calendario del campeonato:\n\n";
-        imprimirCalendario(calendario);
+        //cout << "Calendario del campeonato:\n\n";
+        //imprimirCalendario(calendario);
 
     }
 
