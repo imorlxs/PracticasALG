@@ -55,8 +55,8 @@ output_file_te_dyv="../dat/test_te_dyv.dat"
 output_file_te="../dat/test_te.dat"
 
 # Asegurándose de que los archivos de salida están vacíos al principio
-echo "" > $output_file_te
-echo "" > $output_file_te_dyv
+> $output_file_te
+> $output_file_te_dyv
 
 # Compilando los programas C++
 g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
@@ -67,8 +67,8 @@ for n in {10..100..10}; do
     echo " [+] Ejecutando prueba <te> con n = $n"
     ../bin/te $n >> $output_file_te
 
-    echo "[+] Ejecutando prueba <te_dyv> con n = $n, valor = $valor_unico"
-    ../bin/te_dyv $output_file_te_dyv $n $valor_unico
+    echo " [+] Ejecutando prueba <te_dyv> con n = $n"
+    ../bin/te_dyv $n >> $output_file_te_dyv
 done
 
 echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
