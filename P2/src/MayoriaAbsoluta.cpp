@@ -85,15 +85,8 @@ int MayoriaAbsoluta(int *v, int n) {
     }
   }
 
-  int candidato_mayoria = INT_MIN;
 
-  for (auto it : frecuencia) {
-    if (it.second > n / 2) {
-      candidato_mayoria = it.first;
-      break;
-    }
-  }
-  return candidato_mayoria;
+  return INT_MIN;
 }
 
 
