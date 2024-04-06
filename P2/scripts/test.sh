@@ -54,21 +54,21 @@ echo "[+] PRUEBA TUERCAS Y TORNILLOS FINALIZADA"
 output_file_te_dyv="../dat/test_te_dyv.dat"
 output_file_te="../dat/test_te.dat"
 
-echo "" > $output_file_te
-echo "" > $output_file_te_dyv
+# Asegurándose de que los archivos de salida están vacíos al principio
+> $output_file_te
+> $output_file_te_dyv
 
+# Compilando los programas C++
 g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
 g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
 
-#Bucle para las pruebas
+# Bucle para las pruebas, redirigiendo la salida estándar a los archivos de salida
 for n in {10..100..10}; do
-	
-    valor_unico = n
-    echo " [+] Ejecutando prueba <te> con n = $n, valor = $valor_unico"
-    ../bin/te $output_file_te $n $valor_unico
+    echo " [+] Ejecutando prueba <te> con n = $n"
+    ../bin/te $n >> $output_file_te
 
-    echo "[+] Ejecutando prueba <te_dyv> con n = $n, valor = $valor_unico"
-    ../bin/te_dyv $output_file_te_dyv
+    echo " [+] Ejecutando prueba <te_dyv> con n = $n"
+    ../bin/te_dyv $n >> $output_file_te_dyv
 done
 
 echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
