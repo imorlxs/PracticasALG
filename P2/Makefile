@@ -4,31 +4,35 @@ BIN            = $(HOME)/bin
 SEED    = 24041915
 DAT     = $(HOME)/dat
 IMG     = $(HOME)/img
-SCRIPTS    = $(HOME)/scripts
+
 CXX     = g++
 CXXFLAGS = -std=c++11
 
-# Aquí definimos SOURCES para incluir todos los archivos .cpp en el directorio SRC
 SOURCES = $(wildcard $(SRC)/*.cpp)
 
-# Con esta definición, ahora BINARIES generará los nombres de los ejecutables
 BINARIES = $(SOURCES:$(SRC)/%.cpp=$(BIN)/%)
 
 #######################################################################
 
-all: $(BIN) $(BINARIES)
+all: $(BIN) $(DAT) $(IMG) $(BINARIES)
 	@echo "[+] Todo está compilado correctamente"
 
 $(BIN)/%: $(SRC)/%.cpp
-	@echo "[+] Compilando $@..., primer requisito $<"
+	@echo "[+] Compilando $@..., a partir de $<"
 	@$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(BIN) $(DAT) $(IMG):
-	@mkdir -p $@
+$(BIN):
+	@mkdir $@
+
+$(DAT):
+	@mkdir $@
+
+$(IMG):
+	@mkdir $@
 
 data:
-	@chmod +x $(SCRIPTS)/test.sh
-	@./$(SCRIPTS)/test.sh
+	@chmod +x test.sh
+	@./test.sh
 
 clean:
 	$(RM) -r $(BIN)
