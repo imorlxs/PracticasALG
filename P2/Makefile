@@ -11,7 +11,7 @@ CXXFLAGS = -std=c++11
 SOURCES = $(wildcard $(SRC)/*.cpp)
 
 BINARIES = $(SOURCES:$(SRC)/%.cpp=$(BIN)/%)
-CASOS_MA = $$(seq 1000 100000 2000000)
+CASOS_MA = $$(seq 1000 5000 1000000)
 #######################################################################
 
 all: $(BIN) $(DAT) $(IMG) $(BINARIES)
