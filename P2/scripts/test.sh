@@ -14,11 +14,11 @@
 #Bucle para las pruebas
 #for n in { }; do
 
-#    echo "[+] Ejecutando prueba <ma> con ...
-#    ../bin/ma
+#    echo "[+] Ejecutando prueba <MayoriaAbsoluta> con ...
+#    ../bin/MayoriaAbsoluta
 
-#    echo "[+] Ejecutando prueba <ma_dyv> ...
-#    ../bin/ma_dyv
+#    echo "[+] Ejecutando prueba <MayoriaAbsolutaDyV> ...
+#    ../bin/MayoriaAbsolutaDyV
 #done
 
 #echo "[+] PRUEBA MAYORIA ABSOLUTA FINALIZADA"
@@ -31,8 +31,8 @@ output_file_tyt="../dat/test_tyt.dat"
 echo "" > $output_file_tyt
 echo "" > $output_file_tyt_dyv
 
-g++ -o ../bin/tyt ../src/TuercasTornillos.cpp
-g++ -o ../bin/tyt_dyv ../src/TuercasTornillosDyV.cpp
+#g++ -o ../bin/tyt ../src/TuercasTornillos.cpp
+#g++ -o ../bin/tyt_dyv ../src/TuercasTornillosDyV.cpp
 
 #Bucle para las pruebas
 for n in {10..100..10}; do
@@ -40,11 +40,11 @@ for n in {10..100..10}; do
     valor_min=1
     valor_max=$(($n + 50))
 
-    echo "[+] Ejecutando prueba <tyt> con n = $n, min = $valor_min, max = $valor_max"
-    ../bin/tyt $output_file_tyt $n $valor_min $valor_max
+    echo "[+] Ejecutando prueba <TuercasTornillos> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/TuercasTornillos $output_file_tyt $n $valor_min $valor_max
 
-    echo "[+] Ejecutando prueba <tyt_dyv> con n = $n, min = $valor_min, max = $valor_max"
-    ../bin/tyt_dyv $output_file_tyt_dyv $n $valor_min $valor_max
+    echo "[+] Ejecutando prueba <TuercasTornillosDyV> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/TuercasTornillosDyV $output_file_tyt_dyv $n $valor_min $valor_max
 done
 
 echo "[+] PRUEBA TUERCAS Y TORNILLOS FINALIZADA"
@@ -55,20 +55,20 @@ output_file_te_dyv="../dat/test_te_dyv.dat"
 output_file_te="../dat/test_te.dat"
 
 # Asegurándose de que los archivos de salida están vacíos al principio
-> $output_file_te
-> $output_file_te_dyv
+echo "" > $output_file_te
+echo "" > $output_file_te_dyv
 
 # Compilando los programas C++
-g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
-g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
+#g++ -o ../bin/te ../src/ProductoTresElementosBasico+Complejo.cpp
+#g++ -o ../bin/te_dyv ../src/ProductoTresElementosDivyVenc.cpp
 
 # Bucle para las pruebas, redirigiendo la salida estándar a los archivos de salida
 for n in {10..100..10}; do
-    echo " [+] Ejecutando prueba <te> con n = $n"
-    ../bin/te $n >> $output_file_te
+    echo " [+] Ejecutando prueba <ProductoTresElementosBasico+Complejo> con n = $n"
+    ../bin/ProductoTresElementosBasico+Complejo $n >> $output_file_te
 
-    echo " [+] Ejecutando prueba <te_dyv> con n = $n"
-    ../bin/te_dyv $n >> $output_file_te_dyv
+    echo " [+] Ejecutando prueba <ProductoTresElementosDivyVenc> con n = $n"
+    ../bin/ProductoTresElementosDivyVenc $n >> $output_file_te_dyv
 done
 
 echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"
@@ -81,19 +81,19 @@ output_file_er="../dat/test_er.dat"
 echo "" > $output_file_er
 echo "" > $output_file_er_dyv
 
-g++ -o ../bin/er ../src/EliminarRepetidos.cpp
-g++ -o ../bin/er_dyv ../src/EliminarRepetidosDyV.cpp
+#g++ -o ../bin/er ../src/EliminarRepetidos.cpp
+#g++ -o ../bin/er_dyv ../src/EliminarRepetidosDyV.cpp
 
 #Bucle para las pruebas
 for n in {10..100..10}; do
 
     valor_min=0
     valor_max=$((n / 2))
-    echo "[+] Ejecutando prueba <er> con n = $n, min = $valor_min, max = $valor_max"
-    ../bin/er $output_file_er $n $valor_min $valor_max
+    echo "[+] Ejecutando prueba <EliminarRepetidos> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/EliminarRepetidos $output_file_er $n $valor_min $valor_max
 
-    echo "[+] Ejecutando prueba <er_dyv> con n = $n, min = $valor_min, max = $valor_max"
-    ../bin/er_dyv $output_file_er_dyv $n $valor_min $valor_max
+    echo "[+] Ejecutando prueba <EliminarRepetidosDyV> con n = $n, min = $valor_min, max = $valor_max"
+    ../bin/EliminarRepetidosDyV $output_file_er_dyv $n $valor_min $valor_max
 done
 
 echo "[+] PRUEBA ELEMENTOS REPETIDOS FINALIZADA"
@@ -106,18 +106,18 @@ output_file_cc="../dat/test_cc.dat"
 echo "" > $output_file_cc
 echo "" > $output_file_cc_dyv
 
-g++ -o ../bin/cc ../src/OrganizarCalendarioCampeonato.cpp
-g++ -o ../bin/cc_dyv ../src/OrganizarCalendarioCampeonatoDyV.cpp
+#g++ -o ../bin/cc ../src/OrganizarCalendarioCampeonato.cpp
+#g++ -o ../bin/cc_dyv ../src/OrganizarCalendarioCampeonatoDyV.cpp
 
 #Bucle para las pruebas
 
 for ((n = 2; n <= 1048576; n *= 2)); do
 
-    echo " [+] Ejecutando prueba <cc> con n = $n"
-    ../bin/cc $output_file_cc $n
+    echo " [+] Ejecutando prueba <OrganizarCalendarioCampeonato> con n = $n"
+    ../bin/OrganizarCalendarioCampeonato $output_file_cc $n
 
-    echo "[+] Ejecutando prueba <cc_dyv> con n = $n"
-    ../bin/cc_dyv $output_file_cc_dyv $n
+    echo "[+] Ejecutando prueba <OrganizarCalendarioCampeonatoDyV> con n = $n"
+    ../bin/OrganizarCalendarioCampeonatoDyV $output_file_cc_dyv $n
 done
 
 echo "[+] PRUEBA CALENDARIO CAMPEONATO FINALIZADA"
