@@ -109,14 +109,16 @@ echo "" > $output_file_cc_dyv
 g++ -o ../bin/cc ../src/OrganizarCalendarioCampeonato.cpp
 g++ -o ../bin/cc_dyv ../src/OrganizarCalendarioCampeonatoDyV.cpp
 
-Bucle para las pruebas
-for ((n = 2; n <= 1048576; n *= 2)); do
-
-    echo " [+] Ejecutando prueba <cc> con n = $n"
+#Bucle para las pruebas
+for ((n = 2; n <= 65536; n *= 2)); do
+    echo "[+] Ejecutando prueba <cc> con n = $n"
     ../bin/cc $output_file_cc $n
 
-    echo "[+] Ejecutando prueba <cc_dyv> con n = $n"
-    ../bin/cc_dyv $output_file_cc_dyv $n
+done
+
+for ((n = 2; n <= 65536; n *= 2)); do
+	echo "[+] Ejecutando prueba <cc_dyv> con n = $n"
+	../bin/cc_dyv $output_file_cc_dyv $n
 done
 
 echo "[+] PRUEBA CALENDARIO CAMPEONATO FINALIZADA"

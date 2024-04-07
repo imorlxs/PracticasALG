@@ -31,6 +31,7 @@ void generarCalendario(vector<vector<int>> &calendario, int primerEq, int ultimo
 void completarCalendario(vector<vector<int>> &calendario, int primerPartido, int ultimoPartido, int diaInf,
                          int diaFin, int inicioCampeonato);
 void imprimirCalendario(const vector<vector<int>> &calendario);
+bool esPotenciaDeDos(int n);
 
 /*************************/
 
@@ -48,6 +49,11 @@ int main(int argc, char **argv)
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
         cerr << "Uso del programa: ./OrganizarCalendarioCampeonato <archivo de salida> <nº de equipos>" << endl;
         exit(-1);
+    }
+    else if ( !esPotenciaDeDos( atoi(argv[2]) ) )
+    {
+        cerr << "Error, el número de participantes debe ser una potencia de dos" << endl;
+        exit(-2);
     }
     else
     {
@@ -146,3 +152,9 @@ void imprimirCalendario(const vector<vector<int>> &calendario)
     cout << endl;
 
 }
+
+// Comprobar si un número es potencia de 2
+bool esPotenciaDeDos(int n){
+    return n > 0 && (n & (n-1)) == 0;
+}
+
