@@ -50,9 +50,9 @@ int main(int argc, char *argv[]) {
 		// Reservamos memoria para el vector
 		v= new int[n];
 		
-		// Generamos vector aleatorio de prueba, con componentes entre 0 y n-1
+		// Generamos vector aleatorio de prueba, con componentes entre 0 y n/10 - 1
 		for (i= 0; i<n; i++)
-			v[i]= rand()%n;
+			v[i]= rand()%(n/10);
 		
 		cerr << "Ejecutando MayoriaAbsoluta para tam. caso: " << n << endl;
 		
