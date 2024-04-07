@@ -11,7 +11,7 @@ CXXFLAGS = -std=c++11
 SOURCES = $(wildcard $(SRC)/*.cpp)
 
 BINARIES = $(SOURCES:$(SRC)/%.cpp=$(BIN)/%)
-
+CASOS_MA = $$(seq 1000 100000 2000000)
 #######################################################################
 
 all: $(BIN) $(DAT) $(IMG) $(BINARIES)
@@ -20,25 +20,22 @@ all: $(BIN) $(DAT) $(IMG) $(BINARIES)
 $(BIN)/%: $(SRC)/%.cpp
 	@echo "[+] Compilando $@..., a partir de $<"
 	@$(CXX) $(CXXFLAGS) -o $@ $<
+	
+#data: all $(DAT) $(DATAS)
+#	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
 
-$(BIN):
-	@mkdir $@
+$(BIN) $(DAT):
+	@mkdir -p $@
 
-$(DAT):
-	@mkdir $@
+PHONY: clean
+clean: clean-data
+	@echo "[-] Limpiando archivos...."
+	@rm -rf $(BIN)
 
-$(IMG):
-	@mkdir $@
-
-data:
-	@chmod +x test.sh
-	@./test.sh
-
-clean:
-	$(RM) -r $(BIN)
 
 clean-data:
 	@rm -rf $(DAT)
 
-clean-img:
-	@rm -rf $(IMG)
+$(DAT)/%.dat: $(BIN)/% $(DAT)
+	@echo $<
+	@$< $@ $(SEED) $(CASOS_MA) > /dev/null

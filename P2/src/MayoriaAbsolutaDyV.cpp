@@ -18,19 +18,16 @@ int main(int argc, char *argv[]) {
 	
 	if (argc <= 2) {
 		cerr<<"\nError: El programa se debe ejecutar de la siguiente forma.\n\n";
-		cerr<<argv[0]<<" NombreFicheroSalida elemento1 elemento2 ... elementoN\n\n";
+		cerr<<argv[0]<<" NombreFicheroSalida Semilla tamCaso1 tamCaso2 ... tamCasoN\n\n";
 		return 0;
 	}
-
+	
 	int *v;
-  int elementos = argc - 2;
-  v = new int[elementos];
-	
-  int n, elementosi, argumento;
-  bool candidato_mayoria;
-    chrono::time_point<chrono::high_resolution_clock> t0, tf; // Para medir el tiempo de ejecución
+	int n, i, argumento;
+	bool candidato_mayoria;
+    	chrono::time_point<std::chrono::high_resolution_clock> t0, tf; // Para medir el tiempo de ejecución
+	unsigned long int semilla;
 	ofstream fsalida;
-	
 	
 	// Abrimos fichero de salida
 	fsalida.open(argv[1]);
@@ -38,48 +35,58 @@ int main(int argc, char *argv[]) {
 		cerr<<"Error: No se pudo abrir fichero para escritura "<<argv[1]<<"\n\n";
 		return 0;
 	}
+
 	
-	// Pasamos por cada elemento de la entrada
-	elementosi = 0;
-  for (argumento= 2; argumento<argc; argumento++) {
+	
+	// Inicializamos generador de no. aleatorios
+	semilla= atoi(argv[2]);
+	srand(semilla);
+	
+	// Pasamos por cada tamaÒo de caso
+	for (argumento= 3; argumento<argc; argumento++) {
+		
 		// Cogemos el tamanio del caso
 		n= atoi(argv[argumento]);
 		
-	  // Introducimos el elemento en el vector
-    v[elementosi] = n;
-    elementosi++;
-  }	
-  cerr << "Ejecutando Mayoría Absoluta" << endl;
-  
-  for(int j = 0; j < elementosi; j++)
-    cout << v[j] << " ";
-  cout << endl;
-  t0= chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
-  candidato_mayoria = MayoriaAbsoluta(v, 0, elementosi-1); // Ejecutamos el algoritmo
-  tf= chrono::high_resolution_clock::now(); // Cogemos el tiempo en que ultimoiza la ejecuciÛn del algoritmo
-  
-  unsigned long tejecucion= chrono::duration_cast<chrono::microseconds>(tf - t0).count();
-  
-  cerr << "\tTiempo de ejec. (us): " << tejecucion << " para tam. caso "<< elementos <<endl;
-  
-  // Guardamos tam. de caso y t_ejecucion a fichero de salida
-  fsalida<<n<<" "<<tejecucion<<"\n";
-	
+		// Reservamos memoria para el vector
+		v= new int[n];
+		
+		// Generamos vector aleatorio de prueba, con componentes entre 0 y n-1
+		for (i= 0; i<n; i++)
+			v[i]= rand()%n;
+		
+		cerr << "Ejecutando MayoriaAbsoluta para tam. caso: " << n << endl;
+		
+		t0= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuciÛn del algoritmo
+		candidato_mayoria = MayoriaAbsoluta(v, 0, n-1); // Ejecutamos el algoritmo para tamaÒo de caso tam
+		tf= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuciÛn del algoritmo
+		
+		unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
+		
+		cerr << "\tTiempo de ejec. (us): " << tejecucion << " para tam. caso "<< n<<endl;
+		
+		// Guardamos tam. de caso y t_ejecucion a fichero de salida
+		fsalida<<n<<" "<<tejecucion<<"\n";
+		
+		
+		if (candidato_mayoria) {
+    cout << "Hay candidato con mayoría absoluta." << endl;
+  } else {
+    cout << "No hay candidato con mayoría absoluta." << endl;
+  }
+		// Liberamos memoria del vector
+		delete [] v;
+	}
+
 	// Cerramos fichero de salida
 	fsalida.close();
+  	
   
-  for(int j = 0; j < elementos; j++)
-    cout << v[j] << " ";
-  cout << endl;
-	delete [] v;
-  if (!candidato_mayoria) {
-    cout << "No hay candidato con mayoría absoluta." << endl;
-  } else {
-    cout << "Hay candidato con mayoría absoluta." << endl;
-  }
 	
   return 0;
 }
+
+
 
 bool MayoriaAbsoluta(int *v, int inicio, int ultimo) {
   // Comprueba si v[inicio..ultimo] contiene un elemento mayoritario
