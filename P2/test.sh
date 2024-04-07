@@ -55,10 +55,10 @@ echo "" > $output_file_te_dyv
 # Bucle para las pruebas, redirigiendo la salida estándar a los archivos de salida
 for n in {10..100..10}; do
     echo " [+] Ejecutando prueba <ProductoTresElementosBasico+Complejo> con n = $n"
-    bin/ProductoTresElementosBasico+Complejo $n >> $output_file_te
+    bin/ProductoTresElementosBasico+Complejo $n $output_file_te >> $output_file_te
 
     echo " [+] Ejecutando prueba <ProductoTresElementosDivyVenc> con n = $n"
-    bin/ProductoTresElementosDivyVenc $n >> $output_file_te_dyv
+    bin/ProductoTresElementosDivyVenc $n $output_file_te_dyv >> $output_file_te_dyv
 done
 
 echo "[+] PRUEBA TRES ELEMENTOS FINALIZADA"

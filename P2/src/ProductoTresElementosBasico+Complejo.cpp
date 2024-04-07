@@ -25,30 +25,33 @@ vector<int> esProductoDeTresConsecutivos(int N){
 }
 
 int main(int argc, char** argv){
-    int N;
-    vector<int> vec(3,0);
-
-    if(argc < 2){
-        cerr << "Error, introduce el numero del que quieres encontrar el producto." << endl;
+    if(argc < 3){
+        cerr << "Error, introduzca un numero y el nombre del archivo de salida" << endl;
         return -1;
     }
-
+    
+    chrono::time_point<std::chrono::high_resolution_clock> start, stop;
+    int N;
+    vector<int> vec(3,0);
+    
     N = stoi(argv[1]);
 
-    
-    auto start = chrono::high_resolution_clock::now();
+    // Inicia el cronómetro
+    start = chrono::high_resolution_clock::now();
     vec = esProductoDeTresConsecutivos(N);
-    auto stop = chrono::high_resolution_clock::now();
+    stop = chrono::high_resolution_clock::now();
 
-    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+    unsigned long duracion = chrono::duration_cast<chrono::microseconds>(stop - start).count();
 
-    ofstream file("tiempo_ejecucion.txt");
+    ofstream file(argv[2], std::ios::app);
     if (file.is_open()) {
-        file << duration.count() << endl;
+        file << N << " " << duracion << endl;
         file.close();
     } else {
         cerr << "No se pudo abrir el archivo para escribir los resultados." << endl;
     }
+
+   
 
     return 0;
 }

@@ -27,32 +27,30 @@ vector<int> encontrarTresConsecutivos(int N){
     }
     
     return{};
-
 }
 
 int main(int argc, char** argv){
-    if(argc < 2){
-        cerr << "Error, introduzca un numero" << endl;
+    if(argc < 3){
+        cerr << "Error, introduzca un numero y el nombre del archivo de salida" << endl;
         return -1;
     }
-
+    
     int N;
     vector<int> vec(3,0);
     
     N = stoi(argv[1]);
 
+    // Inicia el cronómetro
     auto start = chrono::high_resolution_clock::now();
-
     vec = encontrarTresConsecutivos(N);
-
     auto stop = chrono::high_resolution_clock::now();
 
-    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+    unsigned long duracion = chrono::duration_cast<chrono::microseconds>(stop - start).count();
 
-   
-    ofstream file("tiempo_ejecucion.txt");
+    // Abre el archivo en modo append para agregar los resultados sin borrar los anteriores
+    ofstream file(argv[2], std::ios::app);
     if (file.is_open()) {
-        file << duration.count() << endl;
+        file << N << " " << duracion << endl;
         file.close();
     } else {
         cerr << "No se pudo abrir el archivo para escribir los resultados." << endl;
@@ -60,4 +58,7 @@ int main(int argc, char** argv){
 
     return 0;
 }
+
+
+
 
