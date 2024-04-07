@@ -25,7 +25,7 @@
 #include <chrono>
 using namespace std;
 
-/* CABECERAS DE FUNCIONES*/
+// Cabeceras de funciones //
 
 void rotarEquipos(vector<int>& equipos);
 vector<vector<pair<int,int>>> construirCalendario(int n);
@@ -37,12 +37,11 @@ bool esPotenciaDeDos(int n);
 
 int main(int argc, char **argv)
 {
-    int n;  //nº de partidos
-    chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
-    ofstream salida;
+    int n;  //nº de equipos
+    chrono::time_point<std::chrono::high_resolution_clock> t0, tf;  // para medir tiempos de ejecución
+    ofstream salida;    // archivo de salida
     
-    // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
-
+    // Comprobamos los argumentos de la terminal
     if (argc != 3)
     {
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
@@ -57,29 +56,28 @@ int main(int argc, char **argv)
     else
     {
         n = atoi(argv[2]);
-
+        
+        // Abrimos archivo de salida        
         salida.open(argv[1], std::ios::out | std::ios::app);
         if (!salida.is_open()){
             cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[2] << endl;
             return 0;
         }
 
-        //cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
-
-        t0 = std::chrono::high_resolution_clock::now();
+        t0 = std::chrono::high_resolution_clock::now(); // Comenzamos a medir el tiempo
 
         // Construcción e impresión por pantalla del calendario
         vector<vector<pair<int,int>>> calendario = construirCalendario(n);
 
-        tf = std::chrono::high_resolution_clock::now();
+        tf = std::chrono::high_resolution_clock::now(); // Terminamos de medir tiempos
 
+        // Calculamos la duración en microsegundos
         unsigned long t_ejecucion = std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
+
+        // Escritura en el archivo de salida
         salida << atoi(argv[2]) << " " << t_ejecucion << endl;
 
-        salida.close();
-
-        //cout << "Calendario del campeonato:\n\n";
-        //imprimirCalendario(calendario);
+        salida.close(); // Cierre del archivo de salida
 
     }
 
@@ -88,7 +86,7 @@ int main(int argc, char **argv)
 }
 
 
-// Función para imprimir el calendario del torneo
+// Función para imprimir el calendario del campeonato
 void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
     int dia = 1;
     for (const auto& partidos : calendario){
@@ -103,20 +101,16 @@ void imprimirCalendario(const vector<vector<pair<int,int>>>& calendario){
 
 
 // Método para rotar los equipos y evitar tanto repeticiones como valores inválidos
-// Ejemplo: que '1' juegue con '1' o que haya '4' equipos y el '3' juegue con el '5'
 void rotarEquipos(vector<int>& equipos){
     
-    // Guardamos "bajo llave" el primer equipo, que no se moverá
-    int equipoFijo = equipos[0];
-    
-    // Guardamos el segundo equipo para moverlo al final tras la rotación de todos los demás
-    int equipoMoverFinal = equipos[1];
+    int equipoFijo = equipos[0]; // Guardamos el primer equipo fijo
+    int equipoMoverFinal = equipos[1]; // Guardamos el segundo equipo para moverlo al final
 
-    // Rotación de los equipos
+    // Rotamos los equipos
     for (int i = 1; i < equipos.size() - 1; i++)
         equipos[i] = equipos[i+1];
     
-    //Colocamos el segundo equipo al final del todo
+    // Colocamos el segundo equipo al final 
     equipos[equipos.size() - 1] = equipoMoverFinal;
     
     // Restauramos el equipo fijo
@@ -125,7 +119,6 @@ void rotarEquipos(vector<int>& equipos){
 
 
 // Función que va a construir el calendario del torneo
-// El calendario tendrá dos elementos (matriz) --> [día (jornada)][partidos]
 vector<vector<pair<int,int>>> construirCalendario(int n){
     
     // Inicializamos el calendario
@@ -152,7 +145,7 @@ vector<vector<pair<int,int>>> construirCalendario(int n){
 }
 
 
-// Comprobar si un número es potencia de 2
+// Función para verificar si un número es potencia de 2
 bool esPotenciaDeDos(int n){
     return n > 0 && (n & (n-1)) == 0;
 }

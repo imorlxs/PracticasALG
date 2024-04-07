@@ -25,7 +25,7 @@
 #include <fstream>
 using namespace std;
 
-/* CABECERAS DE FUNCIONES*/
+// Cabeceras de funciones //
 
 void generarCalendario(vector<vector<int>> &calendario, int primerEq, int ultimoEq);
 void completarCalendario(vector<vector<int>> &calendario, int primerPartido, int ultimoPartido, int diaInf,
@@ -35,15 +35,15 @@ bool esPotenciaDeDos(int n);
 
 /*************************/
 
+
 int main(int argc, char **argv)
 {
 
-    long n; // nº de partidos
-    chrono::time_point<std::chrono::high_resolution_clock> t0, tf;
-    ofstream salida;
+    long n; // nº de equipos
+    chrono::time_point<std::chrono::high_resolution_clock> t0, tf; // Para medir tiempos de ejecución
+    ofstream salida;  // Archivos de salida
 
     // Realizamos comprobación sobre el argumento dado (nº de equipos a sortear)
-
     if (argc != 3)
     {
         cerr << "Error, se ha introducido un número de argumentos inválido" << endl;
@@ -59,42 +59,38 @@ int main(int argc, char **argv)
     {
         n = atoi(argv[2]);
 
+        // Abrimos el archivo de salida
         salida.open(argv[1], std::ios::out | std::ios::app);
         if (!salida.is_open()){
             cerr << "[-] Error: No se pudo abrir fichero para escritura " << argv[2] << endl;
             return 0;
         }
-
-        //cout << "[+] Se han introducido " << n << " equipos en la liga, se procede a realizar el sorteo..." << endl;
         
         vector<vector<int>> calendario(n + 1, vector<int>(n, 0)); // Inicializar el calendario con ceros
         
-        t0 = std::chrono::high_resolution_clock::now();
+        t0 = std::chrono::high_resolution_clock::now(); // Comenzamos a contar el tiempo
 
         // Generar el calendario
         generarCalendario(calendario, 1, n);
 
-        tf = std::chrono::high_resolution_clock::now();
+        tf = std::chrono::high_resolution_clock::now(); // Terminamos de medir el tiempo
 
         unsigned long t_ejecucion = std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
         salida << atoi(argv[2]) << " " << t_ejecucion << endl;
 
         salida.close();
 
-        //cout << "Calendario del campeonato:\n\n";
-        //imprimirCalendario(calendario);
-
     }
 
     return 0;
 }
 
+// Función para generar el calendario usando la técnica de Divide y Vencerás
 void generarCalendario(vector<vector<int>> &calendario, int primero, int ultimo)
 {
     int mitad;
 
     // Caso base --> solamente tenemos dos equipos en la liga para emparejar entre sí
-    // Asignamos directamente los emparejamientos a fuerza bruta y se devuelve una matriz de 1x2
     if (ultimo - primero == 1)
     {
         calendario[primero][1] = ultimo;
@@ -102,8 +98,7 @@ void generarCalendario(vector<vector<int>> &calendario, int primero, int ultimo)
     }
     else
     {
-        // Para aplicar técnicas de Divide y Vencerás, dividiremos el rango en dos cada vez, y generar el
-        // calendario para cada mitad sucesivamente
+        // Dividir el rango en dos cada vez y generar el calendario para cada mitad sucesivamente
         mitad = (primero + ultimo) / 2;
 
         generarCalendario(calendario, primero, mitad);
