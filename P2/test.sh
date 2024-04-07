@@ -8,9 +8,6 @@ output_file_ma="../dat/test_ma.dat"
 echo "" > $output_file_ma
 echo "" > $output_file_ma_dyv
 
-#g++ -o ../bin/ma ../src/MayoriaAbsoluta.cpp
-#g++ -o ../bin/ma_dyv ../src/MayoriaAbsolutaDyV.cpp
-
 #Bucle para las pruebas
 for n in {100..10000..100}; do
 
