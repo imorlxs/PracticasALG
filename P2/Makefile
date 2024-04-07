@@ -11,8 +11,12 @@ CXXFLAGS = -std=c++11
 SOURCES = $(wildcard $(SRC)/*.cpp)
 
 BINARIES = $(SOURCES:$(SRC)/%.cpp=$(BIN)/%)
+<<<<<<< HEAD
 CASOS_MA = $$(seq 1000 5000 1000000)
 
+=======
+CASOS_MA = $$(seq 1000 10000 6000000)
+>>>>>>> 91180245a873d147b1ec5aa83f27f09739cfc3db
 #######################################################################
 
 all: $(BIN) $(DAT) $(IMG) $(BINARIES)
@@ -49,3 +53,7 @@ clean-data:
 clean-img:
 	@echo "[+] Borrando gráficas..."
 	rm -rf $(IMG)
+
+$(DAT)/%.dat: $(BIN)/% $(DAT)
+	@echo $<
+	@$< $@ $(SEED) $(CASOS_MA) > /dev/null
