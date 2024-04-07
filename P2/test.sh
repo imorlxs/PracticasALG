@@ -2,26 +2,26 @@
 
 #MAYORIA ABSOLUTA
 
-#output_file_ma_dyv="../dat/test_ma_dyv.dat"
-#output_file_ma="../dat/test_ma.dat"
+output_file_ma_dyv="../dat/test_ma_dyv.dat"
+output_file_ma="../dat/test_ma.dat"
 
-#echo "" > $output_file_ma
-#echo "" > $output_file_ma_dyv
+echo "" > $output_file_ma
+echo "" > $output_file_ma_dyv
 
 #g++ -o ../bin/ma ../src/MayoriaAbsoluta.cpp
 #g++ -o ../bin/ma_dyv ../src/MayoriaAbsolutaDyV.cpp
 
 #Bucle para las pruebas
-#for n in { }; do
+for n in {100..10000..100}; do
 
-#    echo "[+] Ejecutando prueba <MayoriaAbsoluta> con ...
-#    ../bin/MayoriaAbsoluta
+    echo "[+] Ejecutando prueba <ma> con ..."
+    ../bin/MayoriaAbsoluta $output_file_ma n
 
-#    echo "[+] Ejecutando prueba <MayoriaAbsolutaDyV> ...
-#    ../bin/MayoriaAbsolutaDyV
-#done
+    echo "[+] Ejecutando prueba <ma_dyv> ..."
+    ../bin/MayoriaAbsolutaDyV $output_file_ma_dyv n
+done
 
-#echo "[+] PRUEBA MAYORIA ABSOLUTA FINALIZADA"
+echo "[+] PRUEBA MAYORIA ABSOLUTA FINALIZADA"
 
 #TUERCAS Y TORNILLOS
 
