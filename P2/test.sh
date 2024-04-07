@@ -11,11 +11,11 @@ echo "" > $output_file_ma_dyv
 #Bucle para las pruebas
 for n in {100..10000..100}; do
 
-    echo "[+] Ejecutando prueba <ma> con ..."
-    ../bin/MayoriaAbsoluta $output_file_ma n
+    echo "[+] Ejecutando prueba <MayoriaAbsoluta> con ..."
+    bin/MayoriaAbsoluta $output_file_ma $n
 
-    echo "[+] Ejecutando prueba <ma_dyv> ..."
-    ../bin/MayoriaAbsolutaDyV $output_file_ma_dyv n
+    echo "[+] Ejecutando prueba <MayoriaAbsolutaDyV> ..."
+    bin/MayoriaAbsolutaDyV $output_file_ma_dyv $n
 done
 
 echo "[+] PRUEBA MAYORIA ABSOLUTA FINALIZADA"

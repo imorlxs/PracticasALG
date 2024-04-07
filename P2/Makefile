@@ -20,9 +20,6 @@ all: $(BIN) $(DAT) $(IMG) $(BINARIES)
 $(BIN)/%: $(SRC)/%.cpp
 	@echo "[+] Compilando $@..., a partir de $<"
 	@$(CXX) $(CXXFLAGS) -o $@ $<
-	
-#data: all $(DAT) $(DATAS)
-#	@echo "${GREEN}[+] Datos generados correctamente${RESET}"
 
 $(BIN) $(DAT):
 	@mkdir -p $@
@@ -38,6 +35,10 @@ $(IMG):
 data:
 	@chmod +x test.sh
 	@./test.sh
+
+graphic:
+	@chmod +x graphic.gp
+	@./graphic.gp
 
 clean-all:
 	@$(MAKE) clean
