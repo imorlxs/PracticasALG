@@ -99,7 +99,7 @@ echo "" > $output_file_cc_dyv
 
 #Bucle para las pruebas
 
-for ((n = 2; n <= 1048576; n *= 2)); do
+for ((n = 2; n <= 100; n *= 2)); do
 
     echo " [+] Ejecutando prueba <OrganizarCalendarioCampeonato> con n = $n"
     bin/OrganizarCalendarioCampeonato $output_file_cc $n

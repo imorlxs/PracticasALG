@@ -34,11 +34,19 @@ data:
 	@chmod +x test.sh
 	@./test.sh
 
+clean-all:
+	@$(MAKE) clean
+	@$(MAKE) clean-data
+	@$(MAKE) clean-img
+
 clean:
-	$(RM) -r $(BIN)
+	@echo "[+] Borrando binarios..."
+	rm -rf $(BIN)
 
 clean-data:
-	@rm -rf $(DAT)
+	@echo "[+] Borrando datos..."	
+	rm -rf $(DAT)
 
 clean-img:
-	@rm -rf $(IMG)
+	@echo "[+] Borrando gráficas..."
+	rm -rf $(IMG)
