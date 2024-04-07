@@ -2,54 +2,62 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <chrono> // Para medir el tiempo de ejecución
+#include <fstream> // Para escribir en un archivo
 using namespace std;
 
 vector<int> encontrarTresConsecutivos(int N){
-	int low = 1;
-	int high = cbrt(N) + 1;
+    int low = 1;
+    int high = cbrt(N) + 1;
 
-	while(low <= high){
-		int mid = low + (high - low) / 2;
-	
-		int producto = mid * (mid+1) * (mid+2);
+    while(low <= high){
+        int mid = low + (high - low) / 2;
+    
+        int producto = mid * (mid+1) * (mid+2);
 
-		if (producto == N) {
-			return {
-				mid, mid+1, mid + 2
-			};
-		}else if (producto < N){
-			low = mid + 1;
-		}else {
-			high = mid - 1;
-		}
-	}
-	
-	return{};
+        if (producto == N) {
+            return {
+                mid, mid+1, mid + 2
+            };
+        }else if (producto < N){
+            low = mid + 1;
+        }else {
+            high = mid - 1;
+        }
+    }
+    
+    return{};
 
 }
 
 int main(int argc, char** argv){
-	if(argc < 2){
-		cerr << "Error, introduzca un numero" << endl;
-		return -1;
-	}
+    if(argc < 2){
+        cerr << "Error, introduzca un numero" << endl;
+        return -1;
+    }
 
-	int N;
-	vector<int> vec(3,0);
-	
-	N = stoi(argv[1]);
-	vec = encontrarTresConsecutivos(N);
+    int N;
+    vector<int> vec(3,0);
+    
+    N = stoi(argv[1]);
 
-	if (!vec.empty()){
-		cout << "El numero " << N << " es producto de:";
-		for(int i=0; i<3; i++){
-			cout << " " << vec[i];
-		}
-		cout << endl;
-	}else{
-		cout << "El numero no es producto de tres numeros consecutivos :(" << endl;
-	}
+    auto start = chrono::high_resolution_clock::now();
 
-	return 0;
+    vec = encontrarTresConsecutivos(N);
 
+    auto stop = chrono::high_resolution_clock::now();
+
+    auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+
+   
+    ofstream file("tiempo_ejecucion.txt");
+    if (file.is_open()) {
+        file << duration.count() << endl;
+        file.close();
+    } else {
+        cerr << "No se pudo abrir el archivo para escribir los resultados." << endl;
+    }
+
+    return 0;
 }
+
