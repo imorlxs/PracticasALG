@@ -144,6 +144,16 @@ int main(int argc, char* argv[]){
     secuencia_base.clear(); //Este conjunto ya no es necesario
 
     //SEGUNDA PARTE: ORDENACIÓN DE VECTORES Y TOMA DE PRUEBAS
+
+    cout << "Vector de tuercas y tornillos sin ordenar (respectivamente): " << endl;
+
+    for(int i = 0; i < n; ++i)
+        cout << " " << tuercas[i];
+
+    cout << endl;
+
+    for(int i = 0; i < n; ++i)
+        cout << " " << tornillos[i];
     
     t0 = std::chrono::high_resolution_clock::now();
     ordena_tuercas_tornillos_dyv(tuercas, tornillos, 0, n-1);
@@ -154,5 +164,15 @@ int main(int argc, char* argv[]){
 	salida << n << " " << tejecucion << endl;
 
     salida.close();
+
+    cout << endl << "Vector de tuercas y tornillos ordenados (respectivamente): " << endl;
+
+    for(int i = 0; i < n; ++i)
+        cout << " " << tuercas[i];
+
+    cout << endl;
+
+    for(int i = 0; i < n; ++i)
+        cout << " " << tornillos[i];
 
 }

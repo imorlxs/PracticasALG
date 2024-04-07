@@ -12,6 +12,7 @@ SOURCES = $(wildcard $(SRC)/*.cpp)
 
 BINARIES = $(SOURCES:$(SRC)/%.cpp=$(BIN)/%)
 CASOS_MA = $$(seq 1000 5000 1000000)
+
 #######################################################################
 
 all: $(BIN) $(DAT) $(IMG) $(BINARIES)
@@ -21,15 +22,7 @@ $(BIN)/%: $(SRC)/%.cpp
 	@echo "[+] Compilando $@..., a partir de $<"
 	@$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(BIN) $(DAT):
-	@mkdir -p $@
-
-PHONY: clean
-clean: clean-data
-	@echo "[-] Limpiando archivos..."
-	@rm -rf $(BIN)
-
-$(IMG):
+$(BIN) $(DAT) $(IMG):
 	@mkdir $@
 
 data:

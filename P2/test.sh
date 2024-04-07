@@ -71,7 +71,6 @@ output_file_er="dat/test_er.dat"
 echo "" > $output_file_er
 echo "" > $output_file_er_dyv
 
-
 #Bucle para las pruebas
 for n in {10..100..10}; do
 
