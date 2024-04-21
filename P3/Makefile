@@ -3,7 +3,7 @@ SRC            	= $(HOME)/src
 BIN            	= $(HOME)/bin
 
 CXX     = g++
-CXXFLAGS = -std=c++11
+CXXFLAGS = -std=c++17
 
 SOURCES = $(wildcard $(SRC)/*.cpp)
 
