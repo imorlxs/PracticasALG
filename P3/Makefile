@@ -1,6 +1,6 @@
-HOME        = .
-SRC            = $(HOME)/src
-BIN            = $(HOME)/bin
+HOME			= .
+SRC            	= $(HOME)/src
+BIN            	= $(HOME)/bin
 
 CXX     = g++
 CXXFLAGS = -std=c++11
