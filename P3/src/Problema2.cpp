@@ -24,15 +24,15 @@ int encontrarMejorInvitado(int invitadoActual, const vector<vector<int>>& matriz
   }
 
   // Actualizar el mejor valor de emparejamiento si es que encontramos uno 
-  int currentTotalPairingValue = 0;
+  int valorActualTotalEmparejamiento = 0;
   for (int i = 0; i < disponibles.size(); i++) {
     if (disponibles[i]) {
-      currentTotalPairingValue += valorEmparejamiento(invitadoActual, i, matrizConveniencia);
+      valorActualTotalEmparejamiento += valorEmparejamiento(invitadoActual, i, matrizConveniencia);
     }
   }
 
-  if (currentTotalPairingValue > mejorValorEmparejamiento) {
-    mejorValorEmparejamiento = currentTotalPairingValue;
+  if (valorActualTotalEmparejamiento > mejorValorEmparejamiento) {
+    mejorValorEmparejamiento = valorActualTotalEmparejamiento;
   }
 
   return mejorInvitado;
@@ -94,7 +94,7 @@ int main() {
   vector<int> mesa = asignacionGreedy(matrizConvenienciaEjemplo);
 
 
-  cout << "Asignación de asientos en la mesa circular (sentido antihorario): ";
+  cout << "Asignación de asientos en la mesa circular (sentido antihorario):";
   for (int asiento = 1; asiento <= mesa.size(); asiento++) {
     cout << asiento << " ";
   }
