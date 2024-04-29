@@ -84,10 +84,10 @@ vector<int> asignacionGreedy(const vector<vector<int>>& matrizConveniencia) {
 int main() {
   // Datos de ejemplo del diseño
   vector<vector<int>> matrizConvenienciaEjemplo = {
-    {0, 85, 22, 47},
-    {85, 0, 91, 12},
-    {22, 91, 0, 73},
-    {47, 12, 73, 0},
+    {0, 85, 60, 70},
+    {80, 0, 90, 85},
+    {60, 90, 0, 75},
+    {70, 85, 75, 0},
   };
 
   // Calcular las asignaciones de la mesa de invitados con el algoritmo propuesto
