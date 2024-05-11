@@ -56,8 +56,8 @@ int main() {
 
     backtrack(matrizConveniencia, ordenAsientos, primerInvitado, convenienciaMaxima, mejorConveniencia, mejorAsignacionAsientos);
 
-    cout << "Maximum convenience: " << mejorConveniencia << endl;
-    cout << "Optimal seating arrangement: ";
+    cout << "Conveniencia máxima entre los invitados: " << mejorConveniencia << endl;
+    cout << "Asignación óptima de los invitados en los asientos de la mesa (en sentido antihorario): ";
     for (int i = 0; i < mejorAsignacionAsientos.size(); i++) {
         cout << mejorAsignacionAsientos[i] + 1 << " ";
     }
