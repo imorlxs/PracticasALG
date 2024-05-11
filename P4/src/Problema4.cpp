@@ -57,11 +57,10 @@ void imprimirCamino(const vector<pair<int, int>>& camino) {
 int main() {
     // Ejemplo de uso:
     vector<vector<bool>> laberinto = {
-        {true, false, true, false, false},
-        {true, true, true, false, true},
-        {false, false, true, true, true},
-        {true, true, false, false, true},
-        {false, true, true, true, true}
+        {true, false, true, false},
+        {true, true, true, false},
+        {false, false, true, true},
+        {true, true, false, true}
     };
 
     vector<pair<int, int>> camino;
