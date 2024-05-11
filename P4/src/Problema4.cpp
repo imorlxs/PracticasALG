@@ -2,7 +2,8 @@
 #include <vector>
 using namespace std;
 
-bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>& laberinto, vector<vector<bool>>& visitado, vector<pair<int, int>>& camino){
+bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>& laberinto, 
+                            vector<vector<bool>>& visitado, vector<pair<int, int>>& camino){
 
     // Caso base: si estamos en la casilla de salida
     if (fila == tam - 1 && columna == tam - 1) {
@@ -11,18 +12,20 @@ bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>
     }
 
     // Verificar si la casilla actual es transitble y no ha sido visitada
-    if (fila >= 0 && fila < tam && columna >= 0 && columna < tam && laberinto[fila][columna] && !visitado[fila][columna]){
+    if (fila >= 0 && fila < tam && columna >= 0 && columna < tam 
+        && laberinto[fila][columna] && !visitado[fila][columna]){
 
         // Marcar la casilla como visitada
         visitado[fila][columna] = true;
         camino.push_back({fila, columna});
 
         // Explorar las casillas adyacentes
-        vector<pair<int, int>> direcciones = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+        vector<pair<int, int>> direcciones = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
         for (auto& direccion : direcciones) {
             int nueva_fila = fila + direccion.first;
             int nueva_columna = columna + direccion.second;
-            if (laberinto_backtracking(tam, nueva_fila, nueva_columna, laberinto, visitado, camino)) {
+            if (laberinto_backtracking(tam, nueva_fila, nueva_columna, laberinto, 
+                visitado, camino)) {
                 return true;
             }
         }
@@ -70,34 +73,3 @@ int main() {
 
     return 0;
 }
-
-
-//////////////////////////////////////// PSEUDOCÓDIGO /////////////////////////////////////////
-/*
-Función laberinto_backtracking(tam, fila, columna, laberinto, visitado, camino)
-    Si fila == tam - 1 y columna == tam - 1 Entonces
-        Agregar {fila, columna} a camino
-        Devolver Verdadero
-    Fin Si
-
-    Si fila está dentro de 0 a tam - 1 y columna está dentro de 0 a tam - 1 y laberinto[fila][columna] es Verdadero y visitado[fila][columna] es Falso Entonces
-        Marcar visitado[fila][columna] como Verdadero
-        Agregar {fila, columna} a camino
-
-        Direcciones = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
-        Para cada dirección en Direcciones Hacer
-            nueva_fila = fila + dirección[0]
-            nueva_columna = columna + dirección[1]
-            Si laberinto_backtracking(tam, nueva_fila, nueva_columna, laberinto, visitado, camino) Entonces
-                Devolver Verdadero
-            Fin Si
-        Fin Para
-
-        Desmarcar visitado[fila][columna] como Falso
-        Quitar el último elemento de camino
-    Fin Si
-
-    Devolver Falso
-Fin Función
-*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////
