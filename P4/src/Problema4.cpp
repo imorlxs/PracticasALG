@@ -5,7 +5,7 @@ using namespace std;
 bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>& laberinto, 
                             vector<vector<bool>>& visitado, vector<pair<int, int>>& camino){
 
-    // Caso base: si estamos en la casilla de salida
+    // Caso base: si estamos en la casilla de meta, dejará de buscar caminos
     if (fila == tam - 1 && columna == tam - 1) {
         camino.push_back({fila, columna});
         return true;
@@ -15,11 +15,11 @@ bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>
     if (fila >= 0 && fila < tam && columna >= 0 && columna < tam 
         && laberinto[fila][columna] && !visitado[fila][columna]){
 
-        // Marcar la casilla como visitada
+        // Marcar la casilla como visitada y añadirla a la posible solución
         visitado[fila][columna] = true;
         camino.push_back({fila, columna});
 
-        // Explorar las casillas adyacentes
+        // Explorar las casillas adyacentes: derecha, izquierda, arriba, abajo (en ese orden)
         vector<pair<int, int>> direcciones = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
         for (auto& direccion : direcciones) {
             int nueva_fila = fila + direccion.first;
@@ -30,7 +30,8 @@ bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>
             }
         }
 
-        // Desmarcar la casilla como visitada si no hay camino desde aquí
+        // Desmarcar la casilla como visitada y eliminarla de la posible solución si no
+        // hay camino desde aquí
         visitado[fila][columna] = false;
         camino.pop_back();
     }
