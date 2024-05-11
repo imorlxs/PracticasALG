@@ -152,6 +152,12 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < n; i++){
         vec[i] = genera_entero_aleatorio(menor, mayor-1);   //Pasamos a la función el rango del argumento
     }
+
+    cout << "Vector original sin eliminar los repetidos" << endl;
+
+    for (int i = 0; i < n; i++){
+        cout << " " << vec[i];
+    }
     
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidosDyV(vec, 0, n-1, n);
@@ -162,6 +168,12 @@ int main(int argc, char* argv[]) {
 	salida << atoi(argv[2]) << " " << tejecucion << endl; //Como n se modifica, pongo el argumento directamente pa evitar fallos
     
     salida.close();
+
+    cout << "Vector original con los elementos eliminados y ordenados" << endl;
+
+    for (int i = 0; i < n; i++){
+        cout << " " << vec[i];
+    }
 
     cout << endl;
 

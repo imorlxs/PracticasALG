@@ -93,6 +93,12 @@ int main(int argc, char* argv[]) {
         vec[i] = genera_entero_aleatorio(menor, mayor-1); 
     }
 
+    cout << "Vector original sin eliminar los repetidos" << endl;
+
+    for (int i = 0; i < n; i++){
+        cout << " " << vec[i];
+    }
+
     t0 = std::chrono::high_resolution_clock::now();
     eliminaRepetidos(vec, &n);
 	tf = std::chrono::high_resolution_clock::now();
@@ -102,4 +108,10 @@ int main(int argc, char* argv[]) {
 	salida << atoi(argv[2]) << " " << tejecucion << endl; //Como n se modifica, pongo el argumento directamente pa evitar fallos
     
     salida.close();
+
+    cout << "Vector original con los elementos eliminados y ordenados" << endl;
+
+    for (int i = 0; i < n; i++){
+        cout << " " << vec[i];
+    }
 }
