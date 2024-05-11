@@ -12,7 +12,7 @@ void intercambia_personalizado(int &max_score, int &current_score, vector<pair<i
     }
 }
 
-void backtrack(int i, int current_score, int &max_score, vector<bool> &used, const vector<vector<int>> &p, int n, vector<pair<int, int>> &current_pairs, vector<pair<int, int>> &best_pairs) {
+void backtrack(int i, int current_score, int &max_score, vector<bool> &used, const vector<vector<int>> &p, int n, vector<pair<int, int>> &current_pairs, vector<pair<int, int>> &best_pairs){
     if (i == n){
         intercambia_personalizado(max_score, current_score, best_pairs, current_pairs);
         return;
