@@ -18,7 +18,8 @@ int calcularConveniencia(const vector<vector<int>>& matrizConveniencia, const ve
 }
 
 // Función principal del algoritmo de backtracking que busca la asignación de asientos óptima
-void backtrack(vector<vector<int>>& matrizConveniencia, vector<int>& ordenAsientos, int invitadoActual, int convenienciaMaxima, int& mejorConveniencia, vector<int>& mejorAsignacionAsientos) {
+void backtrack(vector<vector<int>>& matrizConveniencia, vector<int>& ordenAsientos, int invitadoActual, int convenienciaMaxima, 
+               int& mejorConveniencia, vector<int>& mejorAsignacionAsientos) {
     int n = matrizConveniencia.size();
     if (invitadoActual == n) {
         int convenienciaTotal = calcularConveniencia(matrizConveniencia, ordenAsientos);
@@ -30,7 +31,8 @@ void backtrack(vector<vector<int>>& matrizConveniencia, vector<int>& ordenAsient
         for (int i = 0; i < n; i++) {
             if (find(ordenAsientos.begin(), ordenAsientos.end(), i) == ordenAsientos.end()) {
                 ordenAsientos.push_back(i);
-                backtrack(matrizConveniencia, ordenAsientos, invitadoActual + 1, convenienciaMaxima, mejorConveniencia, mejorAsignacionAsientos);
+                backtrack(matrizConveniencia, ordenAsientos, invitadoActual + 1, convenienciaMaxima, 
+                          mejorConveniencia, mejorAsignacionAsientos);
                 ordenAsientos.pop_back();
             }
         }
