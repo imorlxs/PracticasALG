@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>& laberinto, 
+bool laberintoBacktracking(int tam, int fila, int columna, vector<vector<bool>>& laberinto, 
                             vector<vector<bool>>& visitado, vector<pair<int, int>>& camino){
 
     // Caso base: si estamos en la casilla de meta, dejará de buscar caminos
@@ -24,7 +24,7 @@ bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>
         for (auto& direccion : direcciones) {
             int nueva_fila = fila + direccion.first;
             int nueva_columna = columna + direccion.second;
-            if (laberinto_backtracking(tam, nueva_fila, nueva_columna, laberinto, 
+            if (laberintoBacktracking(tam, nueva_fila, nueva_columna, laberinto, 
                 visitado, camino)) {
                 return true;
             }
@@ -40,10 +40,10 @@ bool laberinto_backtracking(int tam, int fila, int columna, vector<vector<bool>>
 }
 
 // Función para resolver el laberinto
-bool resolver_laberinto(vector<vector<bool>>& laberinto, vector<pair<int, int>>& camino){
+bool resolverLaberinto(vector<vector<bool>>& laberinto, vector<pair<int, int>>& camino){
     int tam = laberinto.size();
     vector<vector<bool>> visitado(tam, vector<bool>(tam, false));
-    return laberinto_backtracking(tam, 0, 0, laberinto, visitado, camino);
+    return laberintoBacktracking(tam, 0, 0, laberinto, visitado, camino);
 }
 
 void imprimirCamino(const vector<pair<int, int>>& camino) {
@@ -65,7 +65,7 @@ int main() {
     };
 
     vector<pair<int, int>> camino;
-    if (resolver_laberinto(laberinto, camino)) {
+    if (resolverLaberinto(laberinto, camino)) {
         cout << "Hay un camino desde la entrada hasta la salida." << endl;
         imprimirCamino(camino);
     } else {
