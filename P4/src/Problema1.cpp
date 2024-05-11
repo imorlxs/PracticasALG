@@ -34,37 +34,28 @@ void backtrack(int i, int current_score, int &max_score, vector<bool> &used, con
 }
 
 int main(){
-    int n;
-    cout << "Ingrese el número de estudiantes (debe ser par): ";
-    cin >> n;
-
-    while(n % 2 != 0){
-        cout << "El número de estudiantes debe ser par: " << endl;
-        cin >> n;
-    }
-
+    int n = 4;
     vector<vector<int>> p(n, vector<int>(n));
     vector<bool> used(n, false);
     int max_score = 0;
     vector<pair<int, int>> best_pairs;
     vector<pair<int, int>> current_pairs;
 
-    cout << "Ingrese la matriz de preferencias:" << endl;
-    for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            cout << "Pos [" << i << ']' << '[' << j << ']' << ": "; 
-            cin >> p[i][j];
-        }
-    }
+    //Matriz de preferencia
+
+    p[0][0] = 3 ; p[0][1] = 7 ; p[0][2] = 2 ; p[0][3] = 8 ; 
+    p[1][0] = 4 ; p[1][1] = 6 ; p[1][2] = 9 ; p[1][3] = 5 ; 
+    p[2][0] = 1 ; p[2][1] = 0 ; p[2][2] = 10 ; p[2][3] = 2 ; 
+    p[3][0] = 7 ; p[3][1] = 3 ; p[3][2] = 6; p[3][3] = 4 ; 
 
     backtrack(0, 0, max_score, used, p, n, current_pairs, best_pairs);
 
     cout << "Máximo puntaje de emparejamientos: " << max_score << endl;
     cout << "Parejas que contribuyen al máximo puntaje:" << endl;
     for (auto &pair : best_pairs) {
-        cout << "(" << pair.first << ", " << pair.second << ")" << endl;
+        cout << "(" << pair.first << ", " << pair.second << ")";
     }
-    return 0;
+    cout << endl;
 }
 
 
