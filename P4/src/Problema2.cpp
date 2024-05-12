@@ -40,7 +40,6 @@ void backtrack(vector<vector<int>>& matrizConveniencia, vector<int>& ordenAsient
 }
 
 int main() {
-    int n = 4;
     vector<vector<int>> matrizConveniencia = {
         {0, 10, 20, 30},
         {10, 0, 15, 25},
