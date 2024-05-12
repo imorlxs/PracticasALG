@@ -122,18 +122,18 @@ public:
     }
 
     // Caso en que no se encontró ninguna solución.
-    return std::make_pair(moves[0], false);
+    return make_pair(moves[0], false);
   }
 
   size_t getBoardHash() const
   {
-    std::hash<std::string> hasher;
-    std::string boardString;
+    hash<string> hasher;
+    string boardString;
     for (const auto &row : board)
     {
       for (int cell : row)
       {
-        boardString += std::to_string(cell);
+        boardString += to_string(cell);
       }
     }
     return hasher(boardString);
@@ -163,7 +163,7 @@ public:
 int main()
 {
   Senku game;
-  auto startTime = std::chrono::steady_clock::now();
+  auto startTime = chrono::steady_clock::now();
   int counter = 0;
   while (!game.hasWon())
   {
@@ -173,10 +173,10 @@ int main()
     game.toString();
     cout << "Quedan: " << game.remaining << " pegs " << endl;
   }
-  auto endTime = std::chrono::steady_clock::now();
+  auto endTime = chrono::steady_clock::now();
 
-  auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
-  std::cout << "Resuelto en  " << duration.count() << " ms\n";
+  auto duration = chrono::duration_cast<chrono::milliseconds>(endTime - startTime);
+  cout << "Resuelto en  " << duration.count() << " ms\n";
 
   return 0;
 }
