@@ -1,80 +1,90 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <climits>
+#include <limits>
 
 using namespace std;
 
-struct Nodo {
-    int x, y; // Posición en el laberinto
-    int coste; // Coste acumulado para llegar aquí
-    vector<pair<int, int>> camino; // Camino tomado para llegar aquí
+struct Node {
+    int x, y, cost, estimate;
+    Node* parent;
+
+    Node(int x, int y, int cost, int estimate, Node* parent)
+        : x(x), y(y), cost(cost), estimate(estimate), parent(parent) {}
 };
 
-bool esValido(int x, int y, int n, const vector<vector<bool>>& laberinto, const vector<vector<bool>>& visitado) {
-    return x >= 0 && x < n && y >= 0 && y < n && laberinto[x][y] && !visitado[x][y];
+bool isValid(int x, int y, int n, const vector<vector<bool>>& maze) {
+    return x >= 0 && y >= 0 && x < n && y < n && maze[x][y];
 }
 
-int main() {
-    int n = 10;
-    vector<vector<bool>> laberinto = {
-    {true,  false, true,  true,  false, false, true,  true,  false, true},
-    {true,  true,  true,  false, true,  true,  true,  false, true,  true},
-    {false, true,  false, true,  true,  false, false, true,  true,  false},
-    {true,  true,  true,  true,  false, true,  true,  true,  false, true},
-    {true,  false, false, true,  true,  true,  false, true,  true,  true},
-    {true,  true,  false, false, true,  false, true,  true,  false, true},
-    {true,  false, true,  true,  true,  true,  true,  false, true,  true},
-    {false, true,  true,  false, false, true,  false, true,  true,  true},
-    {true,  true,  false, true,  true,  true,  true,  true,  false, false},
-    {false, true,  true,  true,  false, true,  true,  true,  true,  true}
-};
+int heuristic(int x, int y, int targetX, int targetY) {
+    // Manhattan distance as a heuristic
+    return abs(targetX - x) + abs(targetY - y);
+}
 
+void printPath(Node* node) {
+    if (node == nullptr) return;
+    printPath(node->parent);
+    cout << "(" << node->x << ", " << node->y << ") ";
+}
 
-    vector<vector<bool>> visitado(n, vector<bool>(n, false));
-    queue<Nodo> LVV; // Lista de nodos por explorar
-    Nodo raiz = {0, 0, 0, {{0, 0}}};
-    LVV.push(raiz);
-    int C = INT_MAX;
-    vector<pair<int, int>> Sol;
+vector<vector<bool>> createStaticMaze() {
+    return {
+        {true, true, false, true},
+        {false, true, true, true},
+        {true, true, false, false},
+        {true, true, true, true}
+    };
+}
 
-    while (!LVV.empty()) {
-        Nodo X = LVV.front();
-        LVV.pop();
-        visitado[X.x][X.y] = true;
+Node* findPathWithBranchAndBound(vector<vector<bool>>& maze, int startX, int startY, int endX, int endY) {
+    int n = maze.size();
+    auto cmp = [](Node* a, Node* b) { return a->estimate > b->estimate; };
+    priority_queue<Node*, vector<Node*>, decltype(cmp)> pq(cmp);
+    vector<vector<int>> minCost(n, vector<int>(n, numeric_limits<int>::max()));
+    
+    int startEstimate = heuristic(startX, startY, endX, endY);
+    Node* start = new Node(startX, startY, 0, startEstimate, nullptr);
+    pq.push(start);
+    minCost[startX][startY] = 0;
 
-        if (X.coste < C) {
-            int dx[4] = {1, 0, -1, 0}; // movimientos en x: abajo, derecha, arriba, izquierda
-            int dy[4] = {0, 1, 0, -1}; // movimientos en y: abajo, derecha, arriba, izquierda
-            for (int i = 0; i < 4; i++) {
-                int nx = X.x + dx[i];
-                int ny = X.y + dy[i];
-                if (nx == n - 1 && ny == n - 1) { // si es la solución final
-                    Sol = X.camino;
-                    Sol.push_back({nx, ny});
-                    C = X.coste + 1;
-                    break;
-                }
-                if (esValido(nx, ny, n, laberinto, visitado)) {
-                    Nodo Y = {nx, ny, X.coste + 1, X.camino};
-                    Y.camino.push_back({nx, ny});
-                    if (Y.coste < C) {
-                        LVV.push(Y);
-                    }
+    vector<pair<int, int>> directions{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+    while (!pq.empty()) {
+        Node* current = pq.top();
+        pq.pop();
+
+        if (current->x == endX && current->y == endY) {
+            return current;
+        }
+
+        for (auto& dir : directions) {
+            int newX = current->x + dir.first;
+            int newY = current->y + dir.second;
+
+            if (isValid(newX, newY, n, maze)) {
+                int newCost = current->cost + 1;
+                int newEstimate = newCost + heuristic(newX, newY, endX, endY);
+
+                if (newCost < minCost[newX][newY]) {
+                    minCost[newX][newY] = newCost;
+                    pq.push(new Node(newX, newY, newCost, newEstimate, current));
                 }
             }
         }
     }
 
-    if (!Sol.empty()) {
-        cout << "Camino más corto encontrado: ";
-        for (auto& p : Sol) {
-            cout << "(" << p.first << ", " << p.second << ") ";
-        }
-        cout << "\nCoste: " << C << endl;
-    } else {
-        cout << "No se encontró solución." << endl;
-    }
+    return nullptr;
+}
 
+int main() {
+    auto maze = createStaticMaze();
+    Node* path = findPathWithBranchAndBound(maze, 0, 0, 3, 3);
+    if (path) {
+        cout << "Path found: ";
+        printPath(path);
+    } else {
+        cout << "No path found.";
+    }
     return 0;
 }
