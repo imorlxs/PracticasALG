@@ -14,11 +14,27 @@ using namespace std;
 const int n = 4;
 const vector<vector<int> > T = {
 	{0, 2, 1, 3}, 
-	{7, 0, 4, 2}, 
+	{7, 0, 9, 2}, 
 	{2, 2, 0, 1}, 
 	{3, 4, 8, 0}
 }; 
 const int t_escala = 1;  //Como los tiempos son = para todas ciudades, no hace falta vector
+
+
+//Matriz para imprimir matrices
+
+void imprime_matriz(const string& label, vector<vector<int> > &matriz){
+    cout << label << ":\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << setw(5) << matriz[i][j];
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+//Adaptación del algoritmo de Floyd para el problema
 
 void floyd(vector<vector<int> > &t_minimos, vector<vector<int> > &ruta){
 	//Inicialización de ruta
@@ -31,58 +47,133 @@ void floyd(vector<vector<int> > &t_minimos, vector<vector<int> > &ruta){
         }
     }
 
-    //printMatrix("Initial t_minimos", t_minimos); //Dsp miro si renta imprimir
-    //printMatrix("Initial ruta", ruta);
+    imprime_matriz("[+] Matriz inicial: t_minimos", t_minimos);
+    imprime_matriz("[+] Matriz inicial: ruta", ruta);
+
+    //Se comprueban las rutas entre ciudades y se actualiza t_minimos y ruta
 
     for (int k = 0; k < n; k++){
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
-                if (t_minimos[i][j] > t_minimos[i][k] + t_escala + t_minimos[k][j]){
-                    t_minimos[i][j] = t_minimos[i][k] + t_escala + t_minimos[k][j];
+                if (t_minimos[i][j] > (t_minimos[i][k] + t_escala + t_minimos[k][j])){ //Se verifica si con escala es menos costoso
+                    t_minimos[i][j] = t_minimos[i][k] + t_escala + t_minimos[k][j]; //En caso afirmativo se actualiza
                     ruta[i][j] = ruta[i][k];
                 }
             }
         }
 
-        //cout << "After considering city " << k << ":\n";
-        //printMatrix("t_minimos", t_minimos);
-        //printMatrix("ruta", ruta);
+        //Se muestran las actualizaciones después de iterar en cada una de las ciudades
+        cout << "[+] Después de considerar la ciudad: " << k << ":" << endl;
+        imprime_matriz("t_minimos", t_minimos);
+        imprime_matriz("ruta", ruta);
     }
 }
 
-void printPath(int i, int j, vector<vector<int> > &ruta) {
+//Función para imprimir un camino determinado y sus costos
+
+void imprime_camino(int i, int j, vector<vector<int> > &ruta, vector<vector<int> > &t_minimos){
     if (ruta[i][j] == -1) {
-        cout << "[-] ERROR:  no existe ruta de " << i << " a " << j << "\n";
+        cout << "[-] ERROR: no existe ruta de " << i << " a " << j << endl;
         return;
     }
     cout << "[+] Camino más corto entre ciudad " << i << " y " << j << ": " << i;
-    while (i != j) {
-        i = ruta[i][j];
-        cout << " -> " << i;
+    int current = i;
+    while (current != j) {
+        cout << " -> " << ruta[current][j];
+        current = ruta[current][j];
     }
-    cout << "\n";
+    cout << endl;
+    cout << "	[*] Coste total del camino: " << t_minimos[i][j] << endl;
+    cout << endl;
 }
 
 int main(){
 
-	vector<vector<int>> t_minimos = T;
-	vector<vector<int> > ruta(n, vector<int>(n));
+	vector<vector<int>> t_minimos = T; //Se inicializa a la matriz enunciado
+	vector<vector<int> > ruta(n, vector<int>(n)); //Almacena la siguiente ciudad en el camino óptimo
 
     floyd(t_minimos, ruta);
 
-    printPath(0, 1, ruta);
-    printPath(0, 2, ruta);
-    printPath(0,3, ruta);
+    imprime_camino(0, 1, ruta, t_minimos);
+    imprime_camino(0, 2, ruta, t_minimos);
+    imprime_camino(0,3, ruta, t_minimos);
 
-    printPath(1, 0, ruta);
-    printPath(1, 2, ruta);
-    printPath(1, 3, ruta);
+    imprime_camino(1, 0, ruta, t_minimos);
+    imprime_camino(1, 2, ruta, t_minimos);
+    imprime_camino(1, 3, ruta, t_minimos);
 
-    printPath(2, 0, ruta);
-    printPath(2, 1, ruta);
-    printPath(2, 3, ruta);
+    imprime_camino(2, 0, ruta, t_minimos);
+    imprime_camino(2, 1, ruta, t_minimos);
+    imprime_camino(2, 3, ruta, t_minimos);
 
-    printPath(3, 0, ruta);
-    printPath(3, 1, ruta);
-    printPath(3, 2, ruta);
+    imprime_camino(3, 0, ruta, t_minimos);
+    imprime_camino(3, 1, ruta, t_minimos);
+    imprime_camino(3, 2, ruta, t_minimos);
 }
+
+/*Initial t_minimos:
+    0    2    1    3
+    7    0    4    2
+    2    2    0    1
+    3    4    8    0
+
+Initial ruta:
+   -1    1    2    3
+    0   -1    2    3
+    0    1   -1    3
+    0    1    2   -1
+
+After considering city 0:
+t_minimos:
+    0    2    1    3
+    7    0    4    2
+    2    2    0    1
+    3    4    5    0
+
+ruta:
+   -1    1    2    3
+    0   -1    2    3
+    0    1   -1    3
+    0    1    0   -1
+
+After considering city 1:
+t_minimos:
+    0    2    1    3
+    7    0    4    2
+    2    2    0    1
+    3    4    5    0
+
+ruta:
+   -1    1    2    3
+    0   -1    2    3
+    0    1   -1    3
+    0    1    0   -1
+
+After considering city 2:
+t_minimos:
+    0    2    1    3
+    7    0    4    2
+    2    2    0    1
+    3    4    5    0
+
+ruta:
+   -1    1    2    3
+    0   -1    2    3
+    0    1   -1    3
+    0    1    0   -1
+
+After considering city 3:
+t_minimos:
+    0    2    1    3
+    6    0    4    2
+    2    2    0    1
+    3    4    5    0
+
+ruta:
+   -1    1    2    3
+    3   -1    2    3
+    0    1   -1    3
+    0    1    0   -1
+
+[+] Camino más corto entre ciudad 0 y 1: 0 -> 1
+*/
