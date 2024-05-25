@@ -31,7 +31,7 @@ void floyd(vector<vector<int> > &t_minimos, vector<vector<int> > &ruta){
         }
     }
 
-    //printMatrix("Initial t_minimos", t_minimos);
+    //printMatrix("Initial t_minimos", t_minimos); //Dsp miro si renta imprimir
     //printMatrix("Initial ruta", ruta);
 
     for (int k = 0; k < n; k++){
@@ -63,7 +63,7 @@ void printPath(int i, int j, vector<vector<int> > &ruta) {
     cout << "\n";
 }
 
-int main() {
+int main(){
 
 	vector<vector<int>> t_minimos = T;
 	vector<vector<int> > ruta(n, vector<int>(n));
