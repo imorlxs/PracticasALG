@@ -71,8 +71,8 @@ int main() {
 
     cout << "Costo mínimo: " << min_coste << endl;
     cout << "Camino: ";
-    for (int pos : camino) {
-        cout << pos << " ";
+    for (auto it = camino.rbegin(); it != camino.rend(); ++it){
+        cout << *it << " "; 
     }
     cout << endl;
 
