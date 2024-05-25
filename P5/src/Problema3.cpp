@@ -6,6 +6,16 @@
 
 using namespace std;
 
+enum Movimientos {IZQUIERDA, ABAJO, DIAGONAL};
+string enumtoString(Movimientos mov){
+  switch (mov) {
+        case IZQUIERDA: return "IZQUIERDA";
+        case ABAJO: return "ABAJO";
+        case DIAGONAL: return "DIAGONAL";
+        default: return "UNKNOWN";
+    }
+}
+
 int oro(int i, int j, vector<vector<char>> mapa){
   int filas = mapa.size();
   int columnas = mapa[0].size(); // Asumiendo que todas las filas tienen la misma longitud.
@@ -45,6 +55,48 @@ pair<int, vector<vector<int>>> costeOptimo(vector<vector<char>>& mapa){
   }
   return make_pair(resultado[0][c-1], resultado);
 }
+
+vector<Movimientos> recuperaPasos(vector<vector<int>>& matriz){
+  vector<Movimientos> resultado;
+  int i = 0;
+  int j  = matriz[0].size() - 1;
+  int max, index;
+  int movs[3];
+  while(i < matriz.size() - 1 || j > 0){
+    movs[0] = (j > 0) ? matriz[i][j-1] : -1;
+    movs[1] = (i < matriz.size() - 1) ? matriz[i+1][j] : -1;
+    movs[2] = (i < matriz.size() - 1 && j > 0) ? matriz[i+1][j-1] : -1;
+
+    max = INT_MIN;
+    index = -1;
+
+    for (int x = 0; x < 3; x++){
+      if (movs[x] > max){
+          max = movs[x];
+          index = x;
+        }
+      }
+
+      if (i < matriz.size() - 1 && j > 0 && index == 2){
+          j--;
+          i++;
+          resultado.push_back(DIAGONAL);
+        }
+
+      if (index == 0){
+        j--;
+        resultado.push_back(IZQUIERDA);
+      }
+
+      if (index == 1){
+        i++;
+        resultado.push_back(ABAJO);
+      }
+
+    }
+  return resultado;
+}
+
 int main(int argc, char* argv[]) {
 
   if (argc != 2){
@@ -80,17 +132,25 @@ int main(int argc, char* argv[]) {
 
   infile.close();
 
+  for (int i = 0; i < map.size(); i++){
+    for (int j = 0; j < map[0].size(); j++)
+      cout << map[i][j] << " ";
+    cout << endl;
+    }
+
   auto res = costeOptimo(map);
   int oro = res.first;
   auto vector = res.second;
   cout << "La cantidad máxima de oro que se puede recolectar es: " << oro << endl;
 
-  for (int i = 0; i < vector.size(); i++){
-    for (int j = 0; j < vector[0].size(); j++)
-      cout << vector[i][j] << " ";
-    cout << endl;
-    }
 
+  auto pasos = recuperaPasos(vector);
+  cout << "Los pasos a seguir son: " << endl;
+
+  for (Movimientos paso : pasos){
+    cout << enumtoString(paso) << " ";
+  }
+  cout << endl;
     return 0;
 }
 
