@@ -46,7 +46,7 @@ pair<int, vector<int>> encontrarCaminoMenorDificultad(const vector<vector<int>>&
         }
     }
 
-    // Reconstrucción del camino desde la cima hacia la base
+    // Reconstrucción del camino desde la cima hacia la base (Recuperación de la solución)
     vector<int> camino_resultado;
     int current_j = min_index;
     for (int i = 0; i < m; i++) {
