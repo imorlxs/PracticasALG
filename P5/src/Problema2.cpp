@@ -9,91 +9,80 @@
 
 using namespace std;
 
-const int INF = numeric_limits<int>::max();
-const int n = 4;  // Número de ciudades
+//Datos del enunciado
 
-// Implementación usando matrices globales por simplicidad
-int T[n][n] = {{0, 2, 1, 3}, {7, 0, 4, 2}, {2, 2, 0, 1}, {3, 4, 8, 0}};
-int E[n] = {1, 1, 1, 1};  // Tiempos de espera en cada ciudad
-int dp[n][n];
-int nextCity[n][n];
+const int n = 4;
+const vector<vector<int> > T = {
+	{0, 2, 1, 3}, 
+	{7, 0, 4, 2}, 
+	{2, 2, 0, 1}, 
+	{3, 4, 8, 0}
+}; 
+const int t_escala = 1;  //Como los tiempos son = para todas ciudades, no hace falta vector
 
-void printMatrix(const string& label, int matrix[n][n]) {
-    cout << label << ":\n";
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            if (matrix[i][j] == INF)
-                cout << setw(5) << "INF";
-            else
-                cout << setw(5) << matrix[i][j];
-        }
-        cout << "\n";
-    }
-    cout << "\n";
-}
-
-void floydWarshall() {
-    // Inicialización de dp y nextCity
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            dp[i][j] = T[i][j];
-            if (i != j && T[i][j] != INF) nextCity[i][j] = j;
-            else nextCity[i][j] = -1;
+void floyd(vector<vector<int> > &t_minimos, vector<vector<int> > &ruta){
+	//Inicialización de ruta
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (i != j) 
+            	ruta[i][j] = j;
+            else 
+            	ruta[i][j] = -1;
         }
     }
 
-    //printMatrix("Initial dp", dp);
-    //printMatrix("Initial nextCity", nextCity);
+    //printMatrix("Initial t_minimos", t_minimos);
+    //printMatrix("Initial ruta", ruta);
 
-    // Aplicar la recurrencia
-    for (int k = 0; k < n; k++) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (dp[i][k] != INF && dp[k][j] != INF && dp[i][j] > dp[i][k] + E[k] + dp[k][j]) {
-                    dp[i][j] = dp[i][k] + E[k] + dp[k][j];
-                    nextCity[i][j] = nextCity[i][k];
+    for (int k = 0; k < n; k++){
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < n; j++){
+                if (t_minimos[i][j] > t_minimos[i][k] + t_escala + t_minimos[k][j]){
+                    t_minimos[i][j] = t_minimos[i][k] + t_escala + t_minimos[k][j];
+                    ruta[i][j] = ruta[i][k];
                 }
             }
         }
 
         //cout << "After considering city " << k << ":\n";
-        //printMatrix("dp", dp);
-        //printMatrix("nextCity", nextCity);
+        //printMatrix("t_minimos", t_minimos);
+        //printMatrix("ruta", ruta);
     }
 }
 
-void printPath(int i, int j) {
-    if (nextCity[i][j] == -1) {
-        cout << "No path from " << i << " to " << j << "\n";
+void printPath(int i, int j, vector<vector<int> > &ruta) {
+    if (ruta[i][j] == -1) {
+        cout << "[-] ERROR:  no existe ruta de " << i << " a " << j << "\n";
         return;
     }
-    cout << "Path from " << i << " to " << j << ": " << i;
+    cout << "[+] Camino más corto entre ciudad " << i << " y " << j << ": " << i;
     while (i != j) {
-        i = nextCity[i][j];
+        i = ruta[i][j];
         cout << " -> " << i;
     }
     cout << "\n";
 }
 
 int main() {
-    floydWarshall();
-    //Mostrar el camino de 0 a 3
-    printPath(0, 1);
-    printPath(0,2);
-    printPath(0,3);
 
-    printPath(1, 0);
-    printPath(1,2);
-    printPath(1,3);
+	vector<vector<int>> t_minimos = T;
+	vector<vector<int> > ruta(n, vector<int>(n));
 
-    printPath(2, 0);
-    printPath(2,1);
-    printPath(2,3);
+    floyd(t_minimos, ruta);
 
-    printPath(3, 0);
-    printPath(3,1);
-    printPath(3,2);
+    printPath(0, 1, ruta);
+    printPath(0, 2, ruta);
+    printPath(0,3, ruta);
 
-    printPath(0,0);
-    return 0;
+    printPath(1, 0, ruta);
+    printPath(1, 2, ruta);
+    printPath(1, 3, ruta);
+
+    printPath(2, 0, ruta);
+    printPath(2, 1, ruta);
+    printPath(2, 3, ruta);
+
+    printPath(3, 0, ruta);
+    printPath(3, 1, ruta);
+    printPath(3, 2, ruta);
 }
