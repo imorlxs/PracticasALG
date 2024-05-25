@@ -1,6 +1,6 @@
 # Variables
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -g
 SRC_DIR = src
 BIN_DIR = bin
 
