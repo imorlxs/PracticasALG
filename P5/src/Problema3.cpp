@@ -141,16 +141,19 @@ int main(int argc, char* argv[]) {
   auto res = costeOptimo(map);
   int oro = res.first;
   auto vector = res.second;
-  cout << "La cantidad máxima de oro que se puede recolectar es: " << oro << endl;
+  if (oro >= 0){
+    cout << "La cantidad máxima de oro que se puede recolectar es: " << oro << endl;
 
+    auto pasos = recuperaPasos(vector);
+    cout << "Los pasos a seguir son: " << endl;
 
-  auto pasos = recuperaPasos(vector);
-  cout << "Los pasos a seguir son: " << endl;
-
-  for (Movimientos paso : pasos){
-    cout << enumtoString(paso) << " ";
+    for (Movimientos paso : pasos){
+      cout << enumtoString(paso) << " ";
+    }
+    cout << endl;
+  } else{
+      cerr << "EL JUGADOR NO PUEDE AVANZAR" << endl;
   }
-  cout << endl;
     return 0;
 }
 
