@@ -21,7 +21,7 @@ const int t_escala = 1;  //Como los tiempos son = para todas ciudades, no hace f
 
 //Matriz para imprimir matrices
 
-void imprime_matriz(const string& label, vector<vector<int> > &matriz){
+void imprime_matriz(const string &label, vector<vector<int> > &matriz){
     cout << label << ": " << endl;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
